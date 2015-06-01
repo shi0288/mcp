@@ -1,0 +1,177 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>彩种定制</title>
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width">
+<link type="text/css" rel="stylesheet" href="css/reset.css" />
+<link type="text/css" rel="stylesheet" href="css/common.css" />
+<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(e) {
+	var delArr=localStorage.getItem("delArr");
+	if(delArr){
+		delArr=delArr.split(",");
+		$.each(delArr,function(i,val){
+			$("#"+val).addClass("hide");
+			var caizhong=chCaizhong(val);
+			var czhtml="<div class='ding-item' id='a_"+val+"'>"+caizhong+"<a class='quanquan' href='javascript:void(-1)'></a></div>";
+			$("#addcz-divv-cot").append(czhtml);
+		});	
+		$("#ding-add").show();
+	}else{
+		delArr=[];	
+	}
+	$(".ding-jian").click(function(){
+		if($(this).hasClass("on")){
+			$(this).removeClass("on");	
+		}else{
+			$(this).addClass("on");	
+		}	
+		$("#caizhong-num").html($(".ding-jian.on").length);
+		$("#shanchuwanf").show();
+	});
+	$(".quanquan").die().live("click",function(){
+		if($(this).hasClass("on")){
+			$(this).removeClass("on");	
+		}else{
+			$(this).addClass("on");	
+		}	
+		$("#caitj-num").html($(".quanquan.on").length);
+	});
+	$("#delwanfa").click(function(){
+		if($(".ding-jian.on").length>0){
+			$(".ding-jian.on").each(function(){
+				delArr.push($(this).parent().attr("id"));
+				$(this).parent().addClass("hide");
+				$(this).removeClass("on");
+				$("#ding-add").show();
+				var czhtml="<div class='ding-item' id='a_"+$(this).parent().attr('id')+"'>"+$(this).parent().find(".cczzz").eq(0).html()+"<a class='quanquan' href='javascript:void(-1)'></a></div>";
+				$("#addcz-divv-cot").append(czhtml);
+			});
+			localStorage.setItem("delArr",delArr);	
+		}	
+		$("#shanchuwanf").hide();
+	});
+	$(".addcz-divv-btn").eq(0).click(function(){
+		$(".quanquan.on").each(function(index, element) {
+            var clll=$(this).parent().attr("id");
+			clll=clll.split("_");
+			clll=clll[1];
+			$("#"+clll).removeClass("hide");
+			$(this).parent().remove();
+			$("#caitj-num").html(0);
+			$.each(delArr,function(i,val){
+				if(val==clll){
+					 delArr.splice(i,1);					
+				}	
+			});
+        });	
+		localStorage.setItem("delArr",delArr);	
+		if($(".quanquan").length<=0){
+			$("#ding-add").hide();	
+		}
+		$("#addcz-divv").css("left","100%");
+		$("#addcz-bott-btn").hide();	
+	});
+	$("#tianjjjj").click(function(){
+		$("#addcz-divv").css("left","0px");	
+		$("#addcz-bott-btn").show();
+	});
+});
+function chCaizhong(evel){
+	switch(evel){
+		case "dlt":
+		return "大乐透";
+		break;
+		case "ssq":
+		return "双色球";
+		break;
+		case "qxc":
+		return "七星彩";
+		break;
+		case "qlc":
+		return "七乐彩";
+		break;
+		case "pl3":
+		return "排列三";
+		break;
+		case "pl5":
+		return "排列五";
+		break;
+		case "jczq":
+		return "竞彩足球";
+		break;
+		case "fc3d":
+		return "福彩3D";
+		break;	
+	}
+}
+</script>
+</head>
+<body style="height:100%;">
+<div class="page-from-left index">
+	<div class="top fix">
+    	<!--<div class="top-add"><img src="img/guanggao_1.png"></div>-->
+    	<div class="top-relative clearfix"><!--<img id="top-lahuan" src="img/qian_top.png">-->
+        	<a href="index.jsp" class="go-pre"></a>
+               <span class="title" >彩种定制</span>
+        </div>
+    </div>
+    <div class="cb"></div>
+<!--顶部结束-->
+<!--正文内容开始-->
+    <div class="content" id="helphtml"> 
+    	<div class="ding-item text-center" id="ding-add" style="display:none;">
+        	<a href="javascript:void(-1)" class="redtext" id="tianjjjj"><span style="font-size:20px;">+</span>添加玩法</a>
+        </div>       
+     	<div class="ding-item" id="dlt">
+        	<a class="ding-jian"></a>
+            <span class="cczzz">大乐透</span><img src="img/biz_news_column_drag_normal.png"/>
+        </div>
+        <div class="ding-item" id="ssq">
+        	<a class="ding-jian"></a>
+            <span class="cczzz">双色球</span><img src="img/biz_news_column_drag_normal.png"/>
+        </div>
+        <div class="ding-item" id="qxc">
+        	<a class="ding-jian"></a>
+            <span class="cczzz">七星彩</span><img src="img/biz_news_column_drag_normal.png"/>
+        </div>
+        <div class="ding-item" id="pl3">
+        	<a class="ding-jian"></a>
+            <span class="cczzz">排列三</span><img src="img/biz_news_column_drag_normal.png"/>
+        </div>
+        <div class="ding-item" id="pl5">
+        	<a class="ding-jian"></a>
+            <span class="cczzz">排列五</span><img src="img/biz_news_column_drag_normal.png"/>
+        </div>
+        <div class="ding-item" id="fc3d">
+        	<a class="ding-jian" ></a>
+            <span class="cczzz">福彩3D</span><img src="img/biz_news_column_drag_normal.png"/>
+        </div>
+        <div class="ding-item" id="qlc">
+        	<a class="ding-jian"></a>
+            <span class="cczzz">七乐彩</span><img src="img/biz_news_column_drag_normal.png"/>
+        </div>
+        <div class="ding-item" id="jczq">
+        	<a class="ding-jian"></a>
+            <span class="cczzz">竞彩足球</span><img src="img/biz_news_column_drag_normal.png"/>
+        </div>
+        
+        <div class="text-center dddcz-divv-btn" style="display:none;" id="shanchuwanf">
+        	<a href="javascript:void(-1)" class="redtext" id="delwanfa"><img src="img/del_red.png" style="width:20px; float:none; margin-right:5px; vertical-align:middle;" />删除（<span id="caizhong-num" class="redtext"></span>）</a>
+        </div> 
+   </div>
+	<!--添加 -->
+    <div id="addcz-divv">
+    	<div id="addcz-divv-cot"></div>
+       		 <div class="addcz-divv-btn redtext" id="addcz-bott-btn" style="display:none;"><span style="font-size:20px;">+</span>添加（<span id="caitj-num">0</span>）</div>
+    </div>
+<!--正文内容结束-->   
+	<!--底部开始-->
+    <div class="footer">
+        <img src="img/cmbc_bottom.png" style="width:100%" />
+    </div>
+</div>
+</body>
+</html>

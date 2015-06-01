@@ -1,0 +1,305 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>追号详细</title>
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width">
+<link type="text/css" rel="stylesheet" href="css/reset.css" />
+<link type="text/css" rel="stylesheet" href="css/common.css" />
+<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript">
+var i=0;
+$(document).ready(function(e) {
+	var orderId=window.location.href;
+	orderId=orderId.split("#");
+	$("#stop-zh").click(function(){
+		stopZhuiHao(orderId[1]);
+	});
+    var body = {
+				'schemeId' : orderId[1]
+			};
+		$.ajax({           
+			type : "POST",          
+			url  : "/bankServices/LotteryService/commonTrans?timestamp=" + new Date().getTime(),
+			dataType: "json",
+			cache : false,            
+			data: {
+				cmd: 'S02',
+                Id: sessionStorage.getItem("Id"),
+                St: sessionStorage.getItem("St"),
+				body: JSON.stringify(body)
+			},             
+			success : function(result) {
+				var repCode = result.repCode;
+				if(repCode=='0000'){
+					var termCode=result['rst'][0]['termCode'];
+					var time=result['rst'][0]['createTime'];
+					var amount=result['rst'][0]['amount'];
+					var status=result['rst'][0]['status'];
+					var zhuiqi=result['rst'][0]['orderCount'];
+					var yizhui=result['rst'][0]['finishedOrderCount'];
+					var bonus=result['rst'][0]['bonus'];
+					bouns=toDecimalMoney(bonus/100);
+					var bounsHtml="中奖:"+bouns+"元";
+					gameD(result['rst'][0]);
+					amount=toDecimalMoney(amount/100);
+					time=time.substring(0,19);
+					time=time.replace("T"," ");
+					status=getZhuhaoStatus(status);
+					if(status=="进行中"){
+						$("#stop-zh").show();	
+					}else if(status=="等待支付"){
+						$("#bonus").hide();	
+					}
+					var orderId2=result['rst'][0]['id'];
+					orderId2=orderId2.substring(orderId2.length-18,orderId2.length-1);
+					$("#bonus").html(bounsHtml);
+					$("#zhuiqi").html(zhuiqi);
+					$(".zhuiqi").prepend(zhuiqi);
+					$(".yizhui").prepend(yizhui);
+					$("#cztime").html(time);
+					$("#orderId").html(orderId2);	
+					$("#amount").html(amount);
+					$("#state").html(status);
+					$(".state").html(status);
+					if(result['rst'][0]['winStop']==true){
+						$("#tingzhi").html("中奖停追");	
+					}
+					var numbers=result['rst'][0]['numList'];
+					numbers=numbers.split("!");
+					var zhu=0;
+					var bei=1;
+					$.each(numbers,function(key,item){
+						item=item.split("~");
+						var playType=item[0];
+						var betType=item[1];
+						var tzhu=item[3]/item[4];
+						var ty=getType(playType,betType);
+						if(item[0]=="05"){
+							tzhu=tzhu/300;	
+						}else{
+							tzhu=tzhu/200;
+						}
+						zhu+=tzhu;
+						bei=item[4];
+						//betType=getBetType(betType);
+						var htmml="<div class='faxq-out gerytext'><p>"+item[2]+ty+"</p><p>倍数：<font>"+bei+"</font>倍</p><p>注数：<font>"+tzhu+"</font>注</p></div>";
+						$("#zhuihao-cot").append(htmml);
+					});
+					getDd(0,zhuiqi,orderId[1]);
+				}else{
+					alert(result.description);		
+				}
+			},
+			error : onError     
+		});
+		/*$(window).scroll(function(){
+			var dheight=$(document).height();
+			var wheight=$(window).height();
+			var sctop=$(window).scrollTop();
+			if(sctop>=dheight-wheight){
+				getDd(i,10,orderId[1]);
+			}
+		}); */		
+});
+//根据彩种和期号查询开奖号码
+function getZjNum(gameCode,termCode){
+	var arr;
+	var body = {
+				'type' : 0,
+				'terms':[{"gameCode":gameCode,"termCode":termCode}]
+			};
+		$.ajax({           
+			type : "POST",          
+			url  : "/bankServices/LotteryService/commonTrans?timestamp=" + new Date().getTime(),
+			dataType: "json",
+			cache : false, 
+			async:false,           
+			data: {
+				cmd: 'Q01',
+				body: JSON.stringify(body)
+			},             
+			success : function(result) {
+				var repCode = result.repCode;
+				if(repCode=='0000'){
+					arr=result['rst'][0];
+				}else{
+					alert(result.description);		
+				}
+			},
+			error : onError   
+		});	
+		return arr;
+}
+//获取订单信息
+function getDd(startIndex,size,schemeId){
+	var body={"schemeId":schemeId,"startIndex":startIndex,"size":size};
+	$.ajax({           
+			type : "POST",          
+			url  : "/bankServices/LotteryService/commonTrans?timestamp=" + new Date().getTime(),
+			dataType: "json",
+			cache : false,            
+			data: {
+				cmd: 'Q03',
+                Id: sessionStorage.getItem("Id"),
+                St: sessionStorage.getItem("St"),
+				body: JSON.stringify(body)
+			},             
+			success : function(result) {
+				var repCode = result.repCode;
+				if(repCode=='0000'){
+					i=i+1;
+					$.each(result['rst'],function(key,item){
+						//每期信息
+						var gameCode=item['gameCode'];
+						var status=item['status'];
+						status=getOrderStatus(status);
+						var kjarr=getZjNum(gameCode,item['termCode']);
+						var kjnum=kjarr['winningNumber'];
+						var kjstatu=getOrderStatus(kjarr['status']);
+						var kjhtml="";
+						if(kjnum==null || kjstatu=="等待开奖"){
+							kjhtml=kjstatu;
+						}else{
+							 var ntype=1;
+							 if(gameCode=="F02"||gameCode=="T02"||gameCode=="T03"||gameCode=="T04"){
+								ntype=2; 
+							 } 
+							 kjhtml=getKJnum(kjnum,ntype);//开奖号码解析在common.js
+						}
+						var orderHtml='<div class="faxq-out"><span class="item-span">第'+item['termCode']+'期</span><span class="item-span">当前状态：'+status+'</span>'+
+									   '<span class="item-span clearfix"><span class="fl">开奖号码：</span><span class="fl">'+kjhtml+'</span></span></div>';
+						$("#zhuihao-order").append(orderHtml);
+						//每期信息end
+					});					
+					
+				}else{
+					alert(result.description);		
+				}
+			},
+			error : onError   
+	});
+}
+function gameD(obj){
+	switch (obj['gameCode']){
+		//双色球
+		case "F01":
+		$("#czimg").attr("src","img/ico_ssq.png");
+		$("#czfont").html("双色球");
+		break;
+		//福彩3D
+		case "F02":
+		$("#czimg").attr("src","img/ico_3d.png");
+		$("#czfont").html("福彩3D");
+		break;
+		//七乐彩
+		case "F03":
+		$("#czimg").attr("src","img/ico_qlc.png");
+		$("#czfont").html("七乐彩");
+		break;
+		//大乐透
+		case "T01":
+		$("#czimg").attr("src","img/ico_dlt.png");
+		$("#czfont").html("大乐透");
+		break;
+		//七星彩
+		case "T02":
+		$("#czimg").attr("src","img/ico_qxc.png");
+		$("#czfont").html("七星彩");
+		break;
+		//排列3
+		case "T03":
+		$("#czimg").attr("src","img/ico_pl3.png");
+		$("#czfont").html("排列三");
+		break;
+		//排列5
+		case "T04":
+		$("#czimg").attr("src","img/ico_pl5.png");
+		$("#czfont").html("排列五");
+		break;
+		//11选5
+		case "T05":
+		$("#czimg").attr("src","img/ico_11xuan5.png");
+		$("#czfont").html("11选5");
+		break;	
+	}
+}
+function stopZhuiHao(schemeId){
+	var body = {
+				'schemeId' : schemeId,
+				'schemeType' : 2
+			};
+	$.ajax({           
+		type : "POST",          
+		url  : "/bankServices/LotteryService/commonTrans?timestamp=" + new Date().getTime(),
+		dataType: "json",
+		cache : false,            
+		data: {
+			cmd: 'S03',
+            Id: sessionStorage.getItem("Id"),
+            St: sessionStorage.getItem("St"),
+			body: JSON.stringify(body)
+		},             
+		success : function(result) {
+			var repCode = result.repCode;
+			if(repCode=='0000'){
+				message(result.description);
+				setTimeout(function(){window.location.reload();},1000);
+			}else{
+				alert(result.description);		
+			}
+		},
+		error : onError   
+	});
+
+}
+</script>
+</head>
+<body>
+<div class="page-from-left index">
+	<div class="top fix">
+    	<div class="top-relative clearfix">
+        	<a href="acount.html" class="go-pre"></a>
+        	<span class="title">追号详细</span>
+        </div>
+    </div>
+    <div class="cb"></div>
+<!--顶部结束-->
+<!--正文内容开始-->	
+	<div class="content faxq pt10 pl5 pr5">
+    	<div class="zhanghu-litt"></div>
+        <div class="fa-box1 clearfix">
+        	 <img class="gooddo" src="img/good_01.png"/>
+       		 <div class="fa-line clearfix pl10"><h4 class="fl"><span id="czfont"></span>  追<span id="zhuiqi"></span>期</h4><span  id="cztime" class="gretime" style="margin-right:5px;">2013-12-21 16:31:28</span></div>
+        	 <div class="fl caizhong"><img id="czimg" src=""/></div>
+             <div class="touxiang-rightbox"> 
+                    <p style="display:block; font-size:15px; color:#8B8B8B;">订单号：<font id="orderId"></font></p>
+                   <p style="display:block; font-size:15px; color:#8B8B8B; padding-bottom:10px;" class="clearfix">
+                   		<span>投注：￥<font id="amount"></font></span>
+                    	<span class="redtext" id="bonus" style="margin-left:10px;"></span><br/>
+                        <span id="state"></span>
+                    </p>
+              </div>                
+        </div>	
+        <div class="comm-box clearfix mt10 pb10">
+        	<p class="fa-tit">投注内容</p>
+            <div id="zhuihao-cot"></div>      
+            <div class="fa-line"></div>
+            <div class="zhui-data">
+            	<span class="lable m10" style="display:inline-block; width:142px; margin-bottom:0px;">追号期数：<font class="zhuiqi">期</font></span>
+                <span class="m10"></span>
+                <span class="lable m10">已追：<font class="yizhui">期</font></span>
+                <br/>
+                <span class="lable m10" style="display:inline-block; width:142px; margin-bottom:0px;">方案状态：<font class="state"></font></span>
+                <span id="tingzhi" class="m10"></span>
+                <a id="stop-zh" class="s-btn-org" href="javascript:void(-1)" style="display:none; margin-left:10px;">停止追号</a>
+            </div>
+            <div class="gerytext" id="zhuihao-order"></div>
+        </div>
+        <img src="img/xiangyun.png" class="xiangyun"/>
+    </div>    
+<!--正文内容结束-->   
+<!--投注底部开始-->
+</body>
+</html>

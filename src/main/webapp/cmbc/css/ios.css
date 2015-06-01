@@ -1,0 +1,18 @@
+@charset "utf-8";
+.top .title{ font-size:20px; line-height:34px; margin-left:-35px;}
+.top .top-relative{ padding:4px 0px 7px 0px; background-position:left bottom;}
+.msyh-login{ font-size:13px; line-height:23px; padding:0px 12px; margin-top:6px;}
+.content{ margin-top:44px; padding-bottom:60px; padding-bottom:40px;}
+#more{ padding-bottom:20px;}
+.box-item-nbg .bline .no-boder{ line-height:16px;}
+.top .go-pre,.top .go-more{ width:25px; height:25px; margin-top:6px;}
+.top .go-pre{ margin-left:10px;}
+.top #refresh{float: right; margin-right: 3%; margin-top: 5px; width: 25px;}
+#alert{ z-index:999;font-family:inherit; position:fixed; padding:0px;line-height:26px; padding-top:0px; text-align:center; width:280px;border:2px solid #FFF; margin-left:-140px; left:50%; top:50%; margin-top:-65px; -moz-box-shadow:2px 2px 4px rgba(160, 160, 160, 0.88); -webkit-box-shadow:2px 2px 4px rgba(160, 160, 160, 0.88); box-shadow:2px 2px 4px rgba(160, 160, 160, 0.88);-moz-border-radius: 8px; -webkit-border-radius: 8px; border-radius:8px; color:#FFF;
+background: url('../img/page_alert_bg.png') repeat; background-color:transparent;  padding: 0px 0px 5px 0px;}
+.alert-title{ font-weight:bold; font-size:16px; line-height:30px;background: url('../img/page_alert_glow.png') center top no-repeat; padding-top:8px; -moz-border-radius: 8px 8px 0px 0px; -webkit-border-radius: 8px 8px 0px 0px; border-radius:8px 8px 0px 0px; color:#ffffff; background-color:transparent;background-color:transparent; border-bottom:0px; margin-top:-1px;padding-left:0px; height:30px;}
+.alert-message{ padding:0px; margin:15px 0px;background-color:transparent;}
+.alert-ok{ font-size:16px; margin:0px 10px 10px 10px; width:260px;height:40px; line-height:40px;-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius:5px; background-color:red;background-color:transparent; color:#FFF; background-image:url(../img/iPhone4btn.png); background-repeat:repeat-x; border:1px solid #131e3a;
+}
+.alert-ok:active{ background-color:#283966;}
+#xh-box{ max-height: none;}

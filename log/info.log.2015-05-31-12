@@ -1,0 +1,165 @@
+2015-05-31 12:00:06 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:00:08 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:00:09 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:00:11 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:00:13 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:00:14 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:00:22 INFO [com.mcp.sv.cmbc.LotteryDao] - 1432917907346.9875
+2015-05-31 12:00:26 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:00:40 INFO [com.mcp.sv.cmbc.LotteryService] - id = 89d418e8dca94feb885c586f5a62f928
+cmd : CQ01
+body : {"gameCode":"T01"}
+2015-05-31 12:00:47 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:00:49 INFO [com.mcp.sv.cmbc.LotteryService] - id = a81aff467c4744799e431d21f69b2fdd
+cmd : CQ01
+body : {"gameCode":"T01"}
+2015-05-31 12:00:58 INFO [com.mcp.sv.cmbc.LotteryService] - 发起投注 shi0288账户余额:3900
+2015-05-31 12:01:01 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:01:04 INFO [com.mcp.sv.cmbc.LotteryDao] - 1433044858725.292
+2015-05-31 12:01:10 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:06:22 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:06:24 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:06:24 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:06:29 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:06:30 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:06:30 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:06:32 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:09:35 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:09:36 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:09:36 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:09:42 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:09:45 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:09:45 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:10:20 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:10:22 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:10:22 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:10:22 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:10:26 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:10:28 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:10:34 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:10:34 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:13:52 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:13:53 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:13:54 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:13:55 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:13:56 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:13:56 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:16:14 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:17:18 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:17:42 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:19:15 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:19:16 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:19:16 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:19:17 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:19:19 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:19:20 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:19:45 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:19:49 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:19:49 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:19:50 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:20:29 INFO [com.mcp.sv.cmbc.LotteryDao] - 用户登陆：shi0288  1
+2015-05-31 12:20:29 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:20:34 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:20:37 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:20:38 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:20:39 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:20:47 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:20:48 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:20:48 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:20:48 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:22:18 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:22:21 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:22:22 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:22:26 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:22:27 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:22:28 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:22:30 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:22:35 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:22:37 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:22:38 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:22:39 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:22:44 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:22:46 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:22:48 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:22:49 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:22:54 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:22:55 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:22:55 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:22:58 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:23:00 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:23:01 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:23:02 INFO [com.mcp.sv.cmbc.LotteryDao] - 1432914024949.5867
+2015-05-31 12:23:03 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:23:07 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:23:10 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:28:16 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:28:17 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:28:17 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:28:18 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:28:18 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:28:19 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:28:19 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:31:57 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:31:57 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:31:58 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:32:13 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:32:16 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:32:29 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:32:35 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:32:37 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:33:16 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:33:16 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:33:17 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:35:28 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:35:29 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:36:14 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:37:42 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:37:44 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:37:45 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:38:09 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:38:10 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:39:13 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:39:15 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:39:15 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:39:19 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:39:20 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:39:20 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:40:54 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:41:00 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:41:01 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:41:01 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:41:06 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:41:09 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:41:11 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:41:11 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:41:14 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:41:16 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:41:17 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:41:18 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:41:20 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:41:38 INFO [com.mcp.sv.cmbc.LotteryDao] - 用户登陆：shi0299  1
+2015-05-31 12:41:38 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:41:44 INFO [com.mcp.sv.cmbc.LotteryDao] - 用户彩币更新：shi0299  0金额：10000
+2015-05-31 12:41:47 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:41:50 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:42:01 INFO [com.mcp.sv.cmbc.LotteryDao] - 用户登陆：shi0299  1
+2015-05-31 12:42:01 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:42:05 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:43:16 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:43:20 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:43:33 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:43:39 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:43:46 INFO [com.mcp.sv.cmbc.LotteryDao] - 用户登陆：shi0288  1
+2015-05-31 12:43:46 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:43:48 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:43:49 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:43:50 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:43:53 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:43:54 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:43:54 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:44:01 INFO [com.mcp.sv.cmbc.LotteryDao] - 用户登陆：shi0299  1
+2015-05-31 12:44:02 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:44:03 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:44:06 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:45:42 INFO [com.mcp.sv.cmbc.LotteryDao] - 
+2015-05-31 12:45:53 INFO [com.mcp.sv.cmbc.LotteryDao] - 

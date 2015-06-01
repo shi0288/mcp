@@ -1,0 +1,36 @@
+﻿/*-----------游戏头部分----------*/
+.banner{ height:50px;background:url(../images/xb_topbanner_cion.png) no-repeat; background-size: 100%;margin-top:30px; text-align:center;}
+.banner span{ line-height:30px; color:#FFF; font-size:18px; font-weight:bold;}
+.count-time{ height:25px; text-align:center;position:relative; top:-20px;}
+.count-time span{ font-size:12px; color:#6b6b6b;}
+#cotime{ color:#F00;}
+
+/*-----------游戏主体部分----------*/
+.main{background:url(../images/xb_bg.jpg) no-repeat; background-size:100%; height:230px; position:relative; top:-20px;}
+.game-Scratchable tr td{ border:2px solid #5a1b0e; height:74px; width:74px;cursor:pointer;}
+.close01{background:url(../images/xb_chest_cion.png) no-repeat center; background-size:70%;}
+.close02{background:url(../images/xb_chest_cion.png) no-repeat center; background-size:70%;}
+.close03{background:url(../images/xb_chest_cion.png) no-repeat center; background-size:70%;}
+.close04{background:url(../images/xb_chest_cion.png) no-repeat center; background-size:70%;}
+.close05{background:url(../images/xb_chest_cion.png) no-repeat center; background-size:70%;}
+.close06{background:url(../images/xb_chest_cion.png) no-repeat center; background-size:70%;}
+.close07{background:url(../images/xb_chest_cion.png) no-repeat center; background-size:70%;}
+.close08{background:url(../images/xb_chest_cion.png) no-repeat center; background-size:70%;}
+.close09{background:url(../images/xb_chest_cion.png) no-repeat center; background-size:70%;}
+.open01{background:url(../images/xb_empty_cion.png) no-repeat center; background-size:70%;}
+.OpenBox{z-index:99; position: relative; height:230px; top:-230px;  background:url(../images/xb_empty_back.png) center no-repeat;background-size:100%; display:none;}
+/*-----------游戏底部-------------*/
+.foot{position: relative;}
+.Btn-Game li{ height:35px; background:#316ecb; width:90%; margin:0 auto; margin-top:8px;text-align:center; line-height:35px; border-radius:5px;}
+.Btn-Game li a{ color:#FFF; font-weight:bold;}
+
+.Openfunull{z-index:99;background:url(../images/xb_opportunity_back.png) center no-repeat; position: relative; height:230px; top:-230px; background-size:100%; display:none;}
+.Openfu0{z-index:99;background:url(../images/empty-back.png) center no-repeat; position: relative; height:230px; top:-230px; background-size:100%; display:none;}
+.Openfu1{z-index:99;background:url(../images/have-1.png) center no-repeat; position: relative; height:230px; top:-230px; background-size:100%; display:none;}
+.Openfu2{z-index:99;background:url(../images/have-2.png) center no-repeat; position: relative; height:230px; top:-230px; background-size:100%; display:none;}
+.Openfu3{z-index:99;background:url(../images/have-3.png) center no-repeat; position: relative; height:230px; top:-230px; background-size:100%; display:none;}
+.Openfu7{z-index:99;background:url(../images/have-7.png) center no-repeat; position: relative; height:230px; top:-230px; background-size:100%; display:none;}
+.Openfu11{z-index:99;background:url(../images/have-11.png) center no-repeat; position: relative; height:230px; top:-230px; background-size:100%; display:none;}
+.Openfu33{z-index:99;background:url(../images/have-33.png) center no-repeat; position: relative; height:230px; top:-230px; background-size:100%; display:none;}
+.Openfu50{z-index:99;background:url(../images/have-50.png) center no-repeat; position: relative; height:230px; top:-230px; background-size:100%; display:none;}
+.Openfu99{z-index:99;background:url(../images/have-99.png) center no-repeat; position: relative; height:230px; top:-230px; background-size:100%; display:none;}

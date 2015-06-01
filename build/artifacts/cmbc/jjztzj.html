@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>奖金转彩金</title>
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width">
+<link type="text/css" rel="stylesheet" href="css/reset.css" />
+<link type="text/css" rel="stylesheet" href="css/common.css" />
+<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript">
+$(document).ready(function(e) {
+    var recharge=sessionStorage.getItem("recharge");//彩金
+	var prize=sessionStorage.getItem("prize");//奖金
+	var jiangjin=prize/100;
+	var prizehtml="￥"+toDecimalMoney(prize/100);
+	$("#price").html(prizehtml);
+	$("#jjztbtn").click(function(){
+		var jine=$("#jine").val();
+		if(!jine){
+			alert("请输入金额");
+			return false;	
+		}
+		jine=parseFloat(jine);
+		if(jine>jiangjin){
+			alert("转换金额不能大于奖金");
+			return false;
+		}	
+		if(jine<=0){
+			alert("请输入正确金额");
+			return false;	
+		}
+		var body = {
+				'stationId' : "24fb88b47c694ec4880ce36d3293e647",
+				'amount' : jine*100
+			};
+		$.ajax({           
+			type : "POST",          
+			url  : "/bankServices/LotteryService/commonTrans?timestamp=" + new Date().getTime(),
+			dataType: "json",
+			cache : false,            
+			data: {
+				cmd: 'C01',
+                Id: sessionStorage.getItem("Id"),
+                St: sessionStorage.getItem("St"),
+				body: JSON.stringify(body)
+			},             
+			success : function(result) {
+				var repCode = result.repCode;
+				if(repCode=='0000'){
+					 prize=prize-jine*100;
+					 recharge=recharge+jine*100;
+					 sessionStorage.setItem("recharge", recharge);
+					 sessionStorage.setItem("prize", prize);
+					 alert("处理成功");
+					 setTimeout(function(){ window.location.href="acount.html"},1500);
+				}else{
+					alert(result.description);	
+				}
+			}
+		});
+	});
+});
+</script>
+</head>
+<body>
+<div class="page-from-left index">
+	
+	<div class="top fix">
+    	<div class="top-relative clearfix">
+        	<a href="tixian.html" class="go-pre"></a>
+        	<span class="title">奖金转彩金</span>
+         </div>
+    </div>
+    <div class="cb"></div>
+<!--顶部结束-->
+<!--正文内容开始-->
+    <div class="content p10">
+    	<h2 class="mt10">&nbsp;</h2>
+    	<div class=" clearfix box-item-nbg">
+        	<div class="bline ico-ye clearfix">
+                <label>当前奖金：</label><span id="price" class="redtext"></span>
+            </div>
+            <div class="bline ico-qian clearfix">
+                <label>转换金额：</label><span>
+                <input id="jine" name="jine" class="org-boder" type="text" onafterpaste="this.value=this.value.replace(/[^\d.]/g,'')" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')">元</span>
+            </div>
+        </div>
+         <a class="m-bigbtn-org mt15" id="jjztbtn">确认提交</a>
+   </div>
+<!--正文内容结束-->
+</div>
+</body>
+</html>
+

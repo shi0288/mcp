@@ -1,0 +1,39 @@
+2015-05-20 20:14:43 INFO [com.mcp.sv.cmbc.LotteryService] - id = 4d10712afdf9449e978a36d3b64661be
+cmd : CQ01
+body : {"gameCode":"T01"}
+2015-05-20 20:32:11 INFO [com.mcp.sv.cmbc.LotteryService] - id = c9d809679e9c4c0c9cdfa59b054ea108
+cmd : CQ22
+body : {"gameCode":"T01","pType":"01","passType":"2"}
+2015-05-20 20:32:31 INFO [com.mcp.sv.cmbc.LotteryService] - id = 324ef89eac144f54aba6060a7a9ada39
+cmd : CQ22
+body : {"gameCode":"T51","pType":"01","passType":"2"}
+2015-05-20 20:32:49 INFO [com.mcp.sv.cmbc.LotteryService] - id = 421d84d7af8e495980c5902a047dfcf2
+cmd : CQ01
+body : {"gameCode":"T51"}
+2015-05-20 20:36:17 INFO [com.mcp.sv.cmbc.LotteryService] - id = 209ca1f232d74f69b7f090fdabc716bb
+cmd : CQ22
+body : {"gameCode":"T51","pType":"01","passType":"2","matchCode":""}
+2015-05-20 20:36:33 INFO [com.mcp.sv.cmbc.LotteryService] - id = 437864493b3c41ac817c61616f0f79a2
+cmd : CQ22
+body : {"gameCode":"T51","pType":"01","passType":"2","matchCode":"201505203009"}
+2015-05-20 20:37:07 INFO [com.mcp.sv.cmbc.LotteryService] - id = f87b90fd8db941aca28d7302d3d34f08
+cmd : CQ22
+body : {"gameCode":"T51","pType":"01","passType":"2","matchCode":"201505203009"}
+2015-05-20 20:38:05 INFO [com.mcp.sv.cmbc.LotteryService] - id = 77fe5d14ac17470d9515aef30a2a3a6b
+cmd : CQ22
+body : {"gameCode":"T51","pType":"01","passType":"1","matchCode":"201505203009"}
+2015-05-20 20:38:23 INFO [com.mcp.sv.cmbc.LotteryService] - id = 37c481dd99094f0688c48091ab9903b7
+cmd : CQ22
+body : {"gameCode":"T51","pType":"02","passType":"1","matchCode":"201505203009"}
+2015-05-20 20:38:32 INFO [com.mcp.sv.cmbc.LotteryService] - id = e51e77dcaecd484084dc9eb29b4ef7de
+cmd : CQ22
+body : {"gameCode":"T51","pType":"02","passType":"1"}
+2015-05-20 20:38:49 INFO [com.mcp.sv.cmbc.LotteryService] - id = 7a322b333f714424af619897139b7f77
+cmd : CQ22
+body : {"gameCode":"T51","pType":"03","passType":"1"}
+2015-05-20 20:39:17 INFO [com.mcp.sv.cmbc.LotteryService] - id = c967d0c41a794bbca185d4443cde7456
+cmd : CQ22
+body : {"gameCode":"T51","pType":"04","passType":"1"}
+2015-05-20 20:39:33 INFO [com.mcp.sv.cmbc.LotteryService] - id = 5cc8c480f889439eaf60af7b38f983ae
+cmd : CQ22
+body : {"gameCode":"T51","pType":"05","passType":"1"}

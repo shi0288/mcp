@@ -1,0 +1,12 @@
+2015-05-31 22:09:44 INFO [com.mcp.sv.cmbc.LotteryService] - id = 7e1e7ceb813a4dc0b37bc4dad2c2e1fe
+cmd : CQ01
+body : {"gameCode":"T01"}
+2015-05-31 22:09:50 INFO [com.mcp.sv.cmbc.LotteryService] - id = 23b0ef4404644e9fb91b6f2f4933c100
+cmd : CQ01
+body : {"gameCode":"T03"}
+2015-05-31 22:09:53 INFO [com.mcp.sv.cmbc.LotteryService] - id = 0d622cf912cf4079834f2ff6b25b7f89
+cmd : CQ01
+body : {"gameCode":"T02"}
+2015-05-31 22:09:55 INFO [com.mcp.sv.cmbc.LotteryService] - id = 88cacaa8fffa4897a4723a1a14df886b
+cmd : CQ01
+body : {"gameCode":"T04"}

@@ -1,0 +1,157 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>九歌彩票</title>
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width">
+<link type="text/css" rel="stylesheet" href="css/reset.css" />
+<link type="text/css" rel="stylesheet" href="css/idangerous.swiper.css" />
+<link type="text/css" rel="stylesheet" href="css/start.css" /> 
+<style type="text/css">
+#more #more-ul li{ display:none;}
+#caizhong-ul .ico-box,#more-ul .ico-box{ position:relative;}
+#caizhong-ul .ico-box span{ position:absolute; left:2px; top:2px; width:19px; height:19px; background-image:url(img/czdz_jian.png); background-size:cover;}
+#more-ul .ico-box span{ position:absolute; left:2px; top:2px; width:19px; height:19px; background-image: url(img/czdz_jia.png); background-size:cover;}
+.start-ms ul li img{ height:56px; width:56px;}
+@media screen and (min-width:540px){.start-ms ul li img{ height:72px; width:72px;}}
+</style>  
+<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
+<script type="text/javascript" src="js/iphone.js"></script>
+<script type="text/javascript">
+//调用客户端提示框-start
+var res;
+window.alert=function(msg){
+	res=msg;
+	if(browser.versions.android==true){					
+		window.MsgJs.setAlertInfo('{"title":"提示","msg":"'+res+'","ok_btn":"false","cancle_text":"确定","cancle_func":null}');
+	}else if(browser.versions.iPhone==true||browser.versions.iPad==true||browser.versions.ios==true){
+		setWebitEvent("iphonealert()","05");
+	}				
+}
+//iphone提示框
+function iphonealert(){	
+	var s='{"title":"提示","msg":"'+res+'","ok_btn":"false","cancle_text":"确定","cancle_func":null}';
+	return s;
+}
+//调用客户端提示框-end
+
+//判断是否是ios客户端
+$(document).ready(function(e) {
+   /*position absolute*/
+	var browser={
+	versions:function(){
+		var u = navigator.userAgent, app = navigator.appVersion;
+		return {
+			trident: u.indexOf('Trident') > -1, //IE内核
+			presto: u.indexOf('Presto') > -1, //opera内核
+			webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+			gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+			mobile: !!u.match(/AppleWebKit.*Mobile.*/)||!!u.match(/AppleWebKit/), //是否为移动终端
+			ios: !!u.match(/(i[^;]+\;(U;)? CPU.+Mac OS X)/), //ios终端
+			android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+			iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+			iPad: u.indexOf('iPad') > -1, //是否iPad
+			webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
+		}
+	}(),
+	language:(navigator.browserLanguage || navigator.language).toLowerCase()
+	}
+	if (browser.versions.android){
+		var hh1=$(".top").height();
+		var hh2=$(".footer-tz").height();
+		var hh=$(window).height()-hh1-hh2;
+		$(".content").css({"max-height":hh+"px","overflow-y":"scroll","margin-bottom":"0px"});
+		$(".top").css("position","absolute");
+	}
+	/*position absolute end*/
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function() {
+   /*彩种定制*/
+	var delArr=localStorage.getItem("delArr");
+	if(delArr){
+		delArr=delArr.split(",");
+		$.each(delArr,function(i,val){
+			$("#"+val).hide();
+			$("#m_"+val).css("display","block");
+		});	
+	}else{
+		delArr=[];
+	}
+	/*彩种定制end*/ 
+	//删除彩种
+	$("#caizhong-ul .czzz-box").click(function(){
+		var id=$(this).attr("id");
+		$(this).hide();
+		$("#m_"+id).css("display","block");
+		delArr.push(id);
+		localStorage.setItem("delArr",delArr);
+	});
+	//添加彩种
+	$("#more-ul .czzz-box").click(function(){
+		if(delArr.length<=2){
+			alert("最多选择7个彩种");
+			return false;	
+		}
+		var id=$(this).attr("id");
+		id=id.split("_");
+		id=id[1];
+		$(this).hide();
+		$("#"+id).css("display","block");
+		$.each(delArr,function(i,val){
+				if(id==val){
+					 delArr.splice(i,1);					
+				}	
+		});
+		localStorage.setItem("delArr",delArr);
+	});
+});
+function closeAlert(){
+	$(".cover3").remove();	
+	$("#alert").remove();
+}
+</script>
+</head>
+<body style=" background-image:url(img/start_bg_01.png); background-repeat:repeat-x repeat-y;">
+<div class="page-from-left index">
+	<div class="top fix">
+    	<div class="top-relative clearfix">
+        	<a href="index.jsp" class="go-pre"></a>
+        	<span class="title">彩种定制</span>
+        </div>
+    </div>
+    <div class="cb"></div>
+    <div style="height:40px;">&nbsp;</div>
+<!--顶部结束-->
+<!--正文内容开始-->
+    <div class="content start-ms clearfix" id="more">
+    <ul id="caizhong-ul" class="clearfix">
+        <li class="czzz-box"  id="jczq"><a class="ico-box"  href="javascript:void(-1)"><img src="img/ico_jczq.png" />竞彩足球<span></span></a></li>
+        <li class="czzz-box" id="ssq"><a class="ico-box"  href="javascript:void(-1)" onClick=""><img src="img/ico_ssq.png" />双色球<span></span></a></li>
+        <li class="czzz-box"  id="dlt"><a class="ico-box" href="javascript:void(-1)"><img src="img/ico_dlt.png" />大乐透<span></span></a></li>
+        <li class="czzz-box"  id="fc3d"><a class="ico-box" href="javascript:void(-1)"><img src="img/ico_3d.png" />福彩3D<span></span></a></li>
+        <li class="czzz-box"  id="c11x5"><a class="ico-box"  href="javascript:void(-1)"><img src="img/ico_11xuan5.png" />11选5<span></span></a></li>
+        <li class="czzz-box"  id="pl3"><a class="ico-box"  href="javascript:void(-1)"><img src="img/ico_pl3.png" />排列三<span></span></a></li>
+        <li class="czzz-box"  id="pl5"><a class="ico-box" href="javascript:void(-1)"><img src="img/ico_pl5.png" />排列五<span></span></a></li>
+        <li class="czzz-box"  id="qlc"><a class="ico-box" href="javascript:void(-1)"><img src="img/ico_qlc.png" />七乐彩<span></span></a></li>
+        <li class="czzz-box"  id="qxc"><a class="ico-box" href="javascript:void(-1)"><img src="img/ico_qxc.png" />七星彩<span></span></a></li>
+        <li id="ccczzz"><a class="ico-box" href="javascript:void(-1)"><img src="img/ico_add.png" />添加</a></li>
+    </ul> 	  
+    <ul id="more-ul" class="clearfix">
+        <li class="czzz-box"  id="m_jczq"><a class="ico-box"  href="javascript:void(-1)" onClick=""><img src="img/ico_jczq.png" />竞彩足球<span></span></a></li>
+        <li class="czzz-box"  id="m_ssq"><a class="ico-box"  href="javascript:void(-1)" onClick=""><img src="img/ico_ssq.png" />双色球<span></span></a></li>
+        <li class="czzz-box"  id="m_dlt"><a class="ico-box" href="javascript:void(-1)"><img src="img/ico_dlt.png" />大乐透<span></span></a></li>
+        <li class="czzz-box"  id="m_fc3d"><a class="ico-box" href="javascript:void(-1)"><img src="img/ico_3d.png" />福彩3D<span></span></a></li>
+        <li class="czzz-box" id="m_c11x5"><a class="ico-box" href="javascript:void(-1)"><img src="img/ico_11xuan5.png" />11选5<span></span></a></li>
+        <li class="czzz-box"  id="m_pl3"><a class="ico-box" href="javascript:void(-1)"><img src="img/ico_pl3.png" />排列三<span></span></a></li>
+        <li class="czzz-box"  id="m_pl5"><a class="ico-box" href="javascript:void(-1)"><img src="img/ico_pl5.png" />排列五<span></span></a></li>
+        <li class="czzz-box"  id="m_qlc"><a class="ico-box" href="javascript:void(-1)"><img src="img/ico_qlc.png" />七乐彩<span></span></a></li>
+        <li class="czzz-box"  id="m_qxc"><a class="ico-box" href="javascript:void(-1)"><img src="img/ico_qxc.png" />七星彩<span></span></a></li>
+    </ul>      
+    </div>
+<!--正文内容结束--> 
+</div>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>九歌彩票首页</title>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width">
+    <link type="text/css" rel="stylesheet" href="css/reset.css"/>
+    <link type="text/css" rel="stylesheet" href="css/common.css"/>
+    <script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="/cmbc/js/platform.js"></script>
+    <script type="text/javascript">
+        var i = 0;
+        $(document).ready(function () {
+            getResult(i, 10);
+            //点击加载
+            $("#load").die().live("click", function () {
+                getResult(i, 10);
+            });
+            /*滚动加载*/
+            /*$(window).scroll(function(){
+             var dheight=$(document).height();
+             var wheight=$(window).height();
+             var sctop=$(window).scrollTop();
+             if(sctop>=dheight-wheight){
+             getResult(i,10);
+             }
+             });*/
+        });
+        function getResult(startIndex, size) {
+            var url = window.location.href;
+            url = url.split("#");
+            var body = {
+                'type': 3,
+                'gameCode': url[1],
+                'startIndex': startIndex,
+                'size': size
+            };
+            var caizhong = "";
+            var type = 1;
+            switch (url[1]) {
+                //双色球
+                case "F01":
+                    caizhong = "双色球";
+                    type = 1;
+                    break;
+                //福彩3D
+                case "F02":
+                    caizhong = "福彩3D";
+                    type = 2;
+                    break;
+                //七乐彩
+                case "F03":
+                    caizhong = "七乐彩";
+                    type = 1;
+                    break;
+                //大乐透
+                case "T01":
+                    caizhong = "大乐透";
+                    type = 1;
+                    break;
+                //七星彩
+                case "T02":
+                    caizhong = "七星彩";
+                    type = 2;
+                    break;
+                //排列3
+                case "T03":
+                    caizhong = "排列三";
+                    type = 2;
+                    break;
+                //排列5
+                case "T04":
+                    caizhong = "排列五";
+                    type = 2;
+                    break;
+                //11选5
+                case "T05":
+                    caizhong = "11选5";
+                    type = 1;
+                    break;
+
+            }
+            $.ajax({
+                type: "POST",
+                url: "/bankServices/LotteryService/commonTrans?timestamp=" + new Date().getTime(),
+                dataType: "json",
+                cache: false,
+                async: false,
+                data: {
+                    cmd: 'Q01',
+                    body: JSON.stringify(body)
+                },
+                success: function (result) {
+                    var repCode = result.repCode;
+                    if (repCode != 0000) {
+                        var errHtml = '<div class="error-tip">数据加载失败，请刷新</div>';
+                        $(".content").html(errHtml);
+                        return false;
+                    }
+                    $("#load").remove();
+                    if (result.rst.length <= 0) {
+                        return false;
+                    }
+                    i = i + 1;
+                    $.each(result.rst, function (key, val) {
+                        var schar = val['winningNumber'];
+                        var qiuhtml = "";
+                        if (schar) {
+                            qiuhtml = getKJnum(schar, type);
+                        }
+                        var endTime = val['endTime'];
+                        endTime = endTime.substring(0, 10);
+                        var surl = "resultmit.html#" + url[1] + "#" + val.code;
+                        var html = '<div class="list-item clearfix" onClick="window.location.href=\'' + surl + '\'">' +
+                                '<p><span>' + caizhong + '</span><span class="middle-span">' + val.name + '</span><span>' + endTime + '</span></p>' +
+                                '<div>' + qiuhtml +
+                                '</div>' +
+                                '</div>'
+                        $("#kjls").append(html);
+
+                    });
+//				var ssshtml='<div id="load" class="text-center greentext mt30">点击加载</div>'
+//				$("#kjls").append(ssshtml);
+                },
+                error: onError
+            });
+        }
+    </script>
+</head>
+<body>
+<div class="page-from-left index">
+
+    <div class="top fix">
+        <div class="top-relative clearfix"><!--<img id="top-lahuan" src="img/qian_top.png">-->
+            <a href="result.html" class="go-pre"></a>
+            <span class="title">历史开奖</span>
+        </div>
+    </div>
+    <div class="cb"></div>
+    <!--顶部结束-->
+    <!--正文内容开始-->
+    <div class="content" id="kjls"></div>
+    <!--正文内容结束-->
+    <!--底部开始-->
+    <div class="footer">
+        <a class="footer-nav nav-gc" href="main.html">购彩</a> <a class="footer-nav nav-zh" href="acount.html">账户</a><a
+            class="footer-nav nav-kj now" href="result.html">开奖</a>
+        <a class="footer-nav nav-xx" href="caiyuan.html">财园</a><a class="footer-nav nav-sz" href="more.html">更多</a>
+
+        <div class="cb"></div>
+    </div>
+</div>
+</body>
+</html>

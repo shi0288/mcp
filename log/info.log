@@ -1,0 +1,29 @@
+2015-05-31 23:10:03 INFO [com.mcp.sv.cmbc.LotteryService] - id = dee69a06135447869a0ba175d69e4a7d
+cmd : CQ01
+body : {"gameCode":"T01"}
+2015-05-31 23:10:06 INFO [com.mcp.sv.cmbc.LotteryService] - id = c039f4c441b64f75a4d65592d76c58e5
+cmd : CQ01
+body : {"gameCode":"T01"}
+2015-05-31 23:10:11 INFO [com.mcp.sv.cmbc.LotteryService] - id = 2c9826c8987d44c184ab40aa30983f3d
+cmd : CQ01
+body : {"gameCode":"T02"}
+2015-05-31 23:10:22 INFO [com.mcp.sv.cmbc.LotteryService] - shi0266
+2015-05-31 23:10:22 INFO [com.mcp.sv.cmbc.LotteryService] - 123321
+2015-05-31 23:10:22 INFO [com.mcp.sv.cmbc.LotteryService] - 1
+2015-05-31 23:10:22 INFO [com.mcp.sv.cmbc.LotteryService] - 8
+2015-05-31 23:10:22 INFO [com.mcp.sv.cmbc.LotteryService] - 0
+2015-05-31 23:10:22 INFO [com.mcp.sv.cmbc.LotteryService] - shi0266
+2015-05-31 23:10:22 INFO [com.mcp.sv.cmbc.LotteryService] - 123321
+2015-05-31 23:10:22 INFO [com.mcp.sv.cmbc.LotteryService] - 1
+2015-05-31 23:10:22 INFO [com.mcp.sv.cmbc.LotteryService] - 8
+2015-05-31 23:10:22 INFO [com.mcp.sv.cmbc.LotteryService] - 1
+2015-05-31 23:10:22 INFO [com.mcp.sv.cmbc.LotteryService] - shi0266
+2015-05-31 23:10:22 INFO [com.mcp.sv.cmbc.LotteryService] - 123321
+2015-05-31 23:10:22 INFO [com.mcp.sv.cmbc.LotteryService] - 1
+2015-05-31 23:10:22 INFO [com.mcp.sv.cmbc.LotteryService] - 8
+2015-05-31 23:10:22 INFO [com.mcp.sv.cmbc.LotteryService] - 2
+2015-05-31 23:10:22 INFO [com.mcp.sv.cmbc.LotteryService] - shi0266
+2015-05-31 23:10:22 INFO [com.mcp.sv.cmbc.LotteryService] - 123321
+2015-05-31 23:10:22 INFO [com.mcp.sv.cmbc.LotteryService] - 1
+2015-05-31 23:10:22 INFO [com.mcp.sv.cmbc.LotteryService] - 8
+2015-05-31 23:10:22 INFO [com.mcp.sv.cmbc.LotteryService] - 3

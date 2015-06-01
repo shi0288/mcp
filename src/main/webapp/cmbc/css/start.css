@@ -1,0 +1,64 @@
+  /*民生银行开始*/
+#more #more-ul li,#more #caizhong-ul li{ display:block; float:left; width:25%;}
+#more .ico-box{ display:block; width:84px; max-width:80%; text-align:center; margin:6px auto;}
+#more .ico-box img{ display:block;margin:0px auto;margin-bottom:5px;}
+.start-ms ul li{ font-size:16px; line-height:28px;}
+.start-ms ul li img{ height:48px; width:48px;}
+.start-ms #caizhong-ul li img{width:56px; height:56px;}
+.start-ms #caizhong-ul a{ background-image:url(../img/start_yy.png); background-position: center 38px; background-repeat:no-repeat;}
+.start-ms{ margin-top:0px;}
+.footer-start{ width:100%; position:fixed; left:0px; bottom:0px; z-index:-1;}
+.footer-start .bsym{ display:block; width:99%; max-width:600px; margin:0px auto;}
+.footer-start .foont{ text-align:center; line-height:30px; font-size:16px; color:#7e7e7e;}
+.footer-start .foont strong{ font-size:25px; color:#c7121f;}
+.footer-start .bsym-ico{ height:28px; vertical-align:middle;}
+.footer-start .xiaoma{ vertical-align: bottom; margin-left:-8px; width:65px; z-index:0;}
+/* Demo Styles */
+.desk{ position:relative; width:100%;padding-top:74px;}
+.desk-thing{ position:absolute; left:0px; top:0px; width:100%; }
+.desk-bg{ width:100%; max-width:640px; display:block; margin:0px auto; z-index:-1;}
+.swiper-container{
+  width: 94%;max-width:640px; margin:0px auto;
+}
+.the-conter{width:100%;max-width:670px; margin:0px auto;}
+.swiper-slide{ text-align:center; font-size:13px;}
+.swiper-slide img{ vertical-align:middle; width:51%; max-width:96px; margin-right:1%;}
+#more-ul,#caizhong-ul{ margin-top:20px;}
+#more #caizhong-ul{ padding-bottom:20px; border-bottom:1px solid #c4c4c4;}
+#the-left{ display:block; width:12px; height:22px; position:absolute; left:0px; top:10px; background-image:url(../img/the_left.png); background-repeat:no-repeat; background-size:cover;}
+#the-right{ display:block; width:12px; height:22px; position:absolute; right:0px; top:10px;background-image:url(../img/the_right.png); background-repeat:no-repeat;background-size:cover; }
+.start-caiyuan{ display:block;max-width:600px; margin:0px auto; width:100%;}
+.start-caiyuan img{ width:100%; }
+#more{ margin-bottom:0px;}
+@media screen and (min-width:540px){
+	.swiper-slide{ font-size:16px;}
+	.footer-start .foont{ font-size:20px;}
+	.footer-start .bsym-ico{ height:35px;}
+	.footer-start .xiaoma{ width:90px;}
+	.footer-start .foont strong{ font-size:30px;}
+	.start-ms ul li img{ width:64px; height:64px;}
+	.start-ms #caizhong-ul li img{width:72px; height:72px;}
+	#the-left,#the-right{width:17px; height:32px;top:25px;}
+}
+@media screen and (max-width:515px){
+	.desk{ padding-top:55px;}	
+}
+@media screen and (max-width:415px){
+	.swiper-container{
+  		width: 94%;
+	}
+	.desk{ padding-top:52px;}	
+}
+@media screen and (max-width:385px){
+	.swiper-slide{font-size:12px;}
+	.swiper-slide img{ margin-right:0.5%;}
+	.desk{ padding-top:45px;}
+}
+@media screen and (max-width:350px){
+	.swiper-slide img{width:50%;}
+	.desk{ padding-top:40px;}
+}
+@media screen and (max-width:320px){
+	.swiper-slide img{width:48%;}
+	.ico-box{ font-size:13px;}
+}

@@ -1,0 +1,5 @@
+#alert{ position:fixed; padding:0px;line-height:26px; padding-top:10px; text-align:center; color:#666; z-index:999; -moz-border-radius:6px; -webkit-border-radius:6px; border-radius:6px; background-color:#F9FAFF; font-size:14px; background-image:none;}
+.alert-title{ font-weight:bold; font-size:16px; color:#000;background-image:none; line-height:20px; height:20px;}
+.alert-message{ padding:0px 0px 8px 0px; border-bottom:1px solid #CCC; margin-bottom:8px;background-image:none;}
+.alert-ok{ font-size:16px; color:#0066FF;background-image:none; border:0px; height:25px; line-height:25px;-moz-box-shadow: none; -webkit-box-shadow:none; box-shadow:none;}
+.alert-ok:active{ background-color:#CCC;}

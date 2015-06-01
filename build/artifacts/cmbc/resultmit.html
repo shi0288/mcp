@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>开奖详情</title>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width">
+    <link type="text/css" rel="stylesheet" href="css/reset.css"/>
+    <link type="text/css" rel="stylesheet" href="css/common.css"/>
+    <script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="/cmbc/js/platform.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var game = window.location.href;
+            game = game.split("#");
+            var gameCode = game[1];
+            var termCode = game[2];
+            if (game[1].indexOf("%23") > 0) {
+                game = game[1].split("%23");
+                gameCode = game[0];
+                termCode = game[1];
+            }
+            gameDs(gameCode);
+            before();//显示加载动画
+            var body = {
+                'terms': [
+                    {"gameCode": gameCode, "termCode": termCode}
+                ],
+                'type': 0,
+                'showGrade': true
+            };
+            $.ajax({
+                type: "POST",
+                url: "/bankServices/LotteryService/commonTrans?timestamp=" + new Date().getTime(),
+                dataType: "json",
+                cache: false,
+                data: {
+                    cmd: 'Q01',
+                    body: JSON.stringify(body)
+                },
+                success: function (result) {
+                    var repCode = result.repCode;
+                    if (repCode == '0000') {
+                        var time = result['rst'][0]['endTime'];
+                        time = time.substring(0, 19);
+                        time = time.replace("T", " ");
+                        $("#kjtime").html(time);
+                        $("#czqi").html(result['rst'][0]['code']);
+                        var kjnum = result['rst'][0]['winningNumber'];
+                        if (kjnum == null) {
+                            $("#kj-number").html(kjstatu);
+                        } else {
+                            var ntype = 1;
+                            if (gameCode == "F02" || gameCode == "T02" || gameCode == "T03" || gameCode == "T04") {
+                                ntype = 2;
+                            }
+                            var kjhtml = getKJnum(kjnum, ntype);//开奖号码解析在common.js
+                            $("#kj-number").html(kjhtml);
+                        }
+                        var des = result['rst'][0]['prizeDesc'];
+
+                        des = des.replace("\\", "");
+                        des = JSON.parse(des);
+                        $.each(des.grades, function (key, item) {
+                            var bbonus = item["bonus"] / 100;
+                            var html = '<tr><td>' + item["name"] + '</td><td>' + item["gCount"] + '</td><td>' + bbonus + '</td></tr>';
+                            $("#kaijiang-table").append(html);
+                        });
+                        after();//删除加载动画
+                    } else {
+                        alert(result.description);
+                    }
+                },
+                error: onError
+            });
+        });
+        function gameDs(gameCode) {
+            switch (gameCode) {
+                //双色球
+                case "F01":
+                    $("#czimg").attr("src", "img/ico_ssq.png");
+                    $("#czfont").html("双色球");
+                    break;
+                //福彩3D
+                case "F02":
+                    $("#czimg").attr("src", "img/ico_3d.png");
+                    $("#czfont").html("福彩3D");
+                    break;
+                //七乐彩
+                case "F03":
+                    $("#czimg").attr("src", "img/ico_qlc.png");
+                    $("#czfont").html("七乐彩");
+                    break;
+                //大乐透
+                case "T01":
+                    $("#czimg").attr("src", "img/ico_dlt.png");
+                    $("#czfont").html("大乐透");
+                    break;
+                //七星彩
+                case "T02":
+                    $("#czimg").attr("src", "img/ico_qxc.png");
+                    $("#czfont").html("七星彩");
+                    break;
+                //排列3
+                case "T03":
+                    $("#czimg").attr("src", "img/ico_pl3.png");
+                    $("#czfont").html("排列三");
+                    break;
+                //排列5
+                case "T04":
+                    $("#czimg").attr("src", "img/ico_pl5.png");
+                    $("#czfont").html("排列五");
+                    break;
+                //11选5
+                case "T05":
+                    $("#czimg").attr("src", "img/ico_11xuan5.png");
+                    $("#czfont").html("11选5");
+                    break;
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="page-from-left index">
+    <div class="top fix">
+        <div class="top-relative clearfix">
+            <a href="javascript:history.go(-1)" class="go-pre"></a>
+            <a href="javascript:xuanqiuShow()" class="go-pre" style="display:none"></a>
+            <span class="title"><span class="pt2">开奖详情</span></span>
+        </div>
+    </div>
+    <div class="cb"></div>
+    <!--顶部结束-->
+    <!--正文内容开始-->
+    <div class="content p10">
+        <div class="fl caizhong kjdel">
+            <img id="czimg" src="">
+        </div>
+        <div class="fl ml15">
+            <p><span id="czfont" class="h5 mr15"></span>第<span id="czqi"></span>期</p>
+
+            <p class="gerytext" id="kjtime"></p>
+        </div>
+        <div class="cb"></div>
+        <div id="kj-number" class="mt10 mb10 clearfix"></div>
+        <table class="kaijiang-table" id="kaijiang-table">
+            <tr>
+                <td>奖项</td>
+                <td>中奖注数</td>
+                <td>每注奖金</td>
+            </tr>
+
+        </table>
+    </div>
+    <!--正文内容结束-->
+</div>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>奖金提款</title>
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width">
+<link type="text/css" rel="stylesheet" href="css/reset.css" />
+<link type="text/css" rel="stylesheet" href="css/common.css" />
+<style type="text/css">
+#quren .bline label{ width:90px; display:inline-block;}
+#quren .bline{ margin-bottom:5px;}
+</style>
+<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+<script charset="utf-8" src="js/iphone.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript" src="js/pcasunzip.js" charset="gb2312"></script>
+<script type="text/javascript">
+$(document).ready(function(e) {
+	var identityId=sessionStorage.getItem("identityId");
+	var realName=sessionStorage.getItem("realName");
+	var cardNumber=sessionStorage.getItem("cardNumber");
+	var bankNo=sessionStorage.getItem("bankNo");
+    var recharge=sessionStorage.getItem("recharge");//彩金
+	var prize=sessionStorage.getItem("prize");//奖金
+	var jiangjin=prize/100;
+	var prizehtml="￥"+toDecimalMoney(prize/100);
+	$("#price").html(prizehtml);
+	if(realName!="null" &&realName!=null){
+		$("#realName").html(realName);	
+	}else{
+		$("#realName").html("未填写");
+	}
+	if(identityId!="null" &&identityId !=null){
+		var len=identityId.length;
+		var sidentityId=identityId.substring(0,3);
+		var eidentityId=identityId.substring(len-3,len);
+		sidentityId=sidentityId+"************"+eidentityId;
+		$("#identityId").html(sidentityId);
+	}else{
+		$("#identityId").html("未填写");
+	}
+	if(cardNumber!="null" &&cardNumber!=null){
+		$("#cardNumber").html(cardNumber);	
+	}else{
+		$("#cardNumber").html("未填写");
+	}
+	//点击提现按钮
+	$("#ttbbb").click(function(){
+		if(realName=="null" || identityId=="null" ){
+			alert("请先完善实名信息");
+			window.location.href="bid.html";
+			return false;	
+		}
+		var txjin=$("#txjin").val();
+		if (isNaN(txjin)){
+			alert("提现金额必须为数字");
+			return false;
+		}
+		txjin=parseFloat(txjin);
+		if($("#txjin").val()==""){
+			alert("请填写提现金额");
+			return false;	
+		}	
+		if(jiangjin<txjin){
+			alert("提现金额不能大于奖金");	
+			return false;
+		}
+		if(txjin<=0){
+			alert("提现金额不正确");
+			return false;	
+		}
+		var body = {
+				'stationId' : "24fb88b47c694ec4880ce36d3293e647",
+				'amount' : txjin*100
+			};
+		$.ajax({           
+			type : "POST",          
+			url  : "/bankServices/LotteryService/commonTrans?timestamp=" + new Date().getTime(),
+			dataType: "json",
+			cache : false,            
+			data: {
+				cmd: 'C03',
+                Id: sessionStorage.getItem("Id"),
+                St: sessionStorage.getItem("St"),
+				body: JSON.stringify(body)
+			},             
+			success : function(result) {
+				var repCode = result.repCode;
+				if(repCode=='0000'){
+					//提现申请成功
+					window.location.href="success_tx.html";
+				}else{
+					alert(result.description);		
+				}
+			}
+		});
+	});
+	
+	$("#jzc").click(function(){
+	  window.location.href="getprice.html";
+	});
+	
+});
+</script>
+</head>
+<body>
+<div class="page-from-left index">
+	<div class="top fix">
+    	<div class="top-relative clearfix">
+        	<a href="acount.html" class="go-pre"></a>
+        	<span class="title">奖金提现</span>
+         </div>
+    </div>
+    <div class="cb"></div>
+<!--顶部结束-->
+<!--正文内容开始-->
+    <div class="content p10">
+    	<div class="box-item-nbg clearfix" id="quren">
+        	<div class="bline clearfix mt5"><label>奖金金额：</label><span id="price" class="redtext" style="margin-left:6px;"></span></div>
+            <div class="bline clearfix"><label>提款金额：</label>
+            	<span><input id="txjin" name="txjin" type="number" class="noborder-input" onafterpaste="this.value=this.value.replace(/\D/g,'')" onkeyup="this.value=this.value.replace(/\D/g,'')" placeholder="请输入提款金额"/></span>
+            </div> 
+            <div class="bline clearfix"><label>真实姓名：</label><span id="realName" style="margin-left:6px;"></span></div> 
+            <div class="bline clearfix"><label>身份证号：</label><span id="identityId" style="margin-left:6px;"></span></div>  
+            <div class="bline clearfix" style="border-bottom:0px;"><label>银行卡号：</label><span id="cardNumber" style="margin-left:6px;"></span></div>    
+        </div>
+        <!--如果用户没有实名认证和绑定银行卡 -->
+        <span>
+		<br />
+		备注 ：<br />
+		1.奖金提现到银行卡，不收取任何手续费。<br />
+		2.建议直接将奖金转为彩金，可使用彩金购买彩票。
+		</span>
+   <a href="javascript:void(-1)" id="ttbbb" class="m-bigbtn-org mt15">确认提款到银行卡</a>
+   <a href="javascript:void(-1)" id="jzc" class="m-bigbtn-org mt15">奖金转彩金</a>
+<!--正文内容结束-->   
+</div>
+</body>
+</html>

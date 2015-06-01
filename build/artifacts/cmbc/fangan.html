@@ -1,0 +1,224 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>方案详情</title>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width">
+    <link type="text/css" rel="stylesheet" href="css/reset.css"/>
+    <link type="text/css" rel="stylesheet" href="css/common.css"/>
+    <script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function (e) {
+            var outerId = window.location.href;
+            outerId = outerId.split("#")[1];
+            before();
+            $.ajax({
+                type: "POST",
+                url: "/bankServices/LotteryService/getOrder?timestamp=" + new Date().getTime(),
+                dataType: "json",
+                cache: false,
+                data: {
+                    userName: sessionStorage.getItem("name"),
+                    passWord: sessionStorage.getItem("passWord"),
+                    outerId:outerId
+                },
+                success: function (result) {
+                    var repCode = result.repCode;
+                    if (repCode == '0000') {
+                        var objectOrder = JSON.parse(result.rst[0]);
+                        var body =JSON.parse(objectOrder.body);
+                        var order = body.order;
+                        var firTick = order.tickets[0];
+                        var termCode = firTick['termCode'];
+                        var time = objectOrder['createTime'];
+                        var amount = order['amount'];
+                        var status = objectOrder['status'];
+                        gameD(firTick);
+                        amount = toDecimalMoney(amount / 100);
+                        time = time.substring(0, 19);
+                        time = time.replace("T", " ");
+                        status = getOrderStatus(status);
+                        var outerId = objectOrder.outerId;
+                        $("#state").html(status);
+                        //如果中奖显示中奖图片
+                        if (order['bonus'] != 0&& order['bonus'] !=undefined) {
+                            $("#state").addClass("redtext");
+                            $(".content").eq(0).addClass("zj-content");
+                            $(".gooddo").show();
+                            $(".xiangyun").show();
+                            var bonus = result['rst'][0]['bonus'];
+                            bouns = toDecimalMoney(bonus / 100);
+                            var bounsHtml = "中奖:" + bouns + "元&nbsp;&nbsp;";
+                            $("#state").html(bounsHtml);
+                        }
+                        $("#czqi").html(termCode);
+                        $("#cztime").html(time);
+                        $("#orderId").html(outerId);
+                        $("#amount").html(amount);
+                        var gameCode = firTick['gameCode'];
+                        //var kjarr=getZjNum(gameCode,result['rst'][0]['termCode']);
+                        var kjnum = result['rst'][0]['dNumber'];
+                        //var kjstatu=getOrderStatus(kjarr['status']);
+                        if (kjnum == null) {
+                            $(".kj-num").html("等待开奖");
+                        } else {
+                            var ntype = 1;
+                            if (gameCode == "F02" || gameCode == "T02" || gameCode == "T03" || gameCode == "T04") {
+                                ntype = 2;
+                            }
+                            var kjhtml = getKJnum(kjnum, ntype);//开奖号码解析在common.js
+                            $(".kj-num").html(kjhtml);
+                        }
+
+                        $.each(order.tickets, function (index, val) {
+                            var numbers = val['number'];
+                            console.log(val);
+                            var tzhu = val['amount'] / 200;
+                            tzhu = tzhu / val['multiple'];
+                            var bei = val['multiple'];
+                            var zhu = val['amount'];
+                            var t1 = val['pType'];
+                            var t2 = val['bType'];
+                            console.log(t1);
+                            var ty = getType(t1, t2);
+                            /*if(val['gameCode']=='T01' && val['playTypeCode']=='05'){
+                             tzhu+="[追加]";
+                             }*/
+                            var cotHtml = '<div class="faxq-out gerytext"><div><p>' + numbers + ty + '</p></div><p>倍数：' + bei + '</p><p>注数：' + tzhu + '</p></div>';
+                            $("#tzcot").append(cotHtml);
+                        });
+                        after();
+                    } else {
+                        after();
+                        alert(result.description);
+                    }
+                },
+                error: onError
+            });
+        });
+
+        function gameD(obj){
+            switch (obj['gameCode']){
+                //双色球
+                case "F01":
+                    $("#czimg").attr("src","img/ico_ssq.png");
+                    $("#czfont").html("双色球");
+                    break;
+                //福彩3D
+                case "F02":
+                    $("#czimg").attr("src","img/ico_3d.png");
+                    $("#czfont").html("福彩3D");
+                    break;
+                //七乐彩
+                case "F03":
+                    $("#czimg").attr("src","img/ico_qlc.png");
+                    $("#czfont").html("七乐彩");
+                    break;
+                //大乐透
+                case "T01":
+                    $("#czimg").attr("src","img/ico_dlt.png");
+                    $("#czfont").html("大乐透");
+                    break;
+                //七星彩
+                case "T02":
+                    $("#czimg").attr("src","img/ico_qxc.png");
+                    $("#czfont").html("七星彩");
+                    break;
+                //排列3
+                case "T03":
+                    $("#czimg").attr("src","img/ico_pl3.png");
+                    $("#czfont").html("排列三");
+                    break;
+                //排列5
+                case "T04":
+                    $("#czimg").attr("src","img/ico_pl5.png");
+                    $("#czfont").html("排列五");
+                    break;
+                //11选5
+                case "T05":
+                    $("#czimg").attr("src","img/ico_11xuan5.png");
+                    $("#czfont").html("11选5");
+                    break;
+            }
+        }
+
+        //根据彩种和期号查询开奖号码
+        function getZjNum(gameCode, termCode) {
+            var arr;
+            var body = {
+                'type': 0,
+                'terms': [{"gameCode": gameCode, "termCode": termCode}]
+            };
+            $.ajax({
+                type: "POST",
+                url: "/bankServices/LotteryService/commonTrans?timestamp=" + new Date().getTime(),
+                dataType: "json",
+                cache: false,
+                async: false,
+                data: {
+                    cmd: 'Q01',
+                    body: JSON.stringify(body)
+                },
+                success: function (result) {
+                    var repCode = result.repCode;
+                    if (repCode == '0000') {
+                        arr = result['rst'][0];
+                    } else {
+                        alert(result.description);
+                    }
+                },
+                error: onError
+            });
+            return arr;
+        }
+    </script>
+</head>
+<body>
+<div class="page-from-left index">
+    <div class="top fix">
+        <div class="top-relative clearfix">
+            <a href="acount.html" class="go-pre"></a>
+            <span class="title">方案详情</span>
+        </div>
+    </div>
+    <div class="cb"></div>
+    <!--顶部结束-->
+    <!--正文内容开始-->
+    <div class="content faxq pt10 pb10 pr5 pl5">
+        <div class="zhanghu-litt"></div>
+        <div class="fa-box1 clearfix">
+            <img class="gooddo" src="img/good_01.png"/>
+            <div class="fa-line clearfix pl10"><h4 class="fl"><span id="czfont"></span> <span id="czqi"></span>期</h4>
+                <span id="cztime" class="gretime" style=" margin-right:5px;">2013-12-21 16:31:28</span></div>
+            <div class="fl caizhong"><img id="czimg" src=""/></div>
+            <div class="touxiang-rightbox">
+                <p style="display:block; font-size:15px; color:#8B8B8B;">
+                    订单号：<font id="orderId"></font>
+                </p>
+
+                <p style="display:block; font-size:15px; color:#8B8B8B; padding-bottom:10px;" class="clearfix">
+                    <span>投注：￥<font id="amount"></font></span>
+                    <span id="state" style="float:right;min-width:65px;"></span>
+                </p>
+            </div>
+        </div>
+        <div class="comm-box clearfix mt10 pb10">
+            <p class="fa-tit">投注内容</p>
+
+            <div id="tzcot"></div>
+            <div class="fa-line"></div>
+            <p class="fa-tit">开奖号码</p>
+
+            <p class="kj-num"></p>
+
+            <div class="clearfix pl10">
+            </div>
+        </div>
+        <img src="img/xiangyun.png" class="xiangyun"/>
+    </div>
+    <!--正文内容结束-->
+    <!--投注底部开始-->
+</body>
+</html>

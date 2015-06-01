@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>个人资料</title>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width">
+    <link type="text/css" rel="stylesheet" href="css/reset.css"/>
+    <link type="text/css" rel="stylesheet" href="css/common.css"/>
+    <script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="/cmbc/js/platform.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var name = sessionStorage.getItem("Name");
+            var realName = sessionStorage.getItem("realName");
+            var phone = sessionStorage.getItem("Name");
+            var cardNumber = sessionStorage.getItem("cardNumber")
+            $("#name").html("手机号:"+name);
+            if (realName != "null") {
+                realName = realName.charAt(0) + "*";
+                $("#relname").html(realName);
+            }
+            if (phone != "null") {
+                iphone = phone.substring(0, 3) + "*****" + phone.substring(8, 11);
+                $("#phone").html(iphone);
+            }
+            if (cardNumber != "null") {
+                var len = cardNumber.length;
+                var scardNumber = cardNumber.substring(0, 3);
+                var ecardNumber = cardNumber.substring(len - 3, len);
+                if (scardNumber && ecardNumber) {
+                    var scardNumber = scardNumber + "*******" + ecardNumber;
+                    $("#cardno").html(scardNumber);
+                } else {
+                    $("#cardno").html("未填写");
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+<div class="page-from-left index">
+
+    <div class="top fix">
+        <div class="top-relative clearfix">
+            <a href="acount.html" class="go-pre"></a>
+            <span class="title">个人资料</span>
+        </div>
+    </div>
+    <div class="cb"></div>
+    <!--顶部结束-->
+    <!--正文内容开始-->
+    <div class="content p10">
+        <div class="box-item-nbg clearfix">
+            <div class="bline ico-uhm clearfix" style="padding:8px 0px 8px 40px; border-bottom:0px;"><label id="name">手机号：</label>
+                <!--<span id="name" onClick="return false;"></span>-->
+            </div>
+            <div class="bline ico-smrz clearfix" style="padding:8px 0px 8px 40px; border-bottom:0px;"
+                 onClick="window.location.href='bid.html'"><label>实名认证：</label><span id="relname">未认证</span><a
+                    href="bid.html"></a></div>
+        </div>
+        <p class="greentext mt15" style="font-size:13px;">* 为了您的账户安全请进行实名认证，实名认证信息是领取大奖的重要凭证，请认真填写。</p>
+    </div>
+    <!--正文内容结束-->
+    <!--底部开始-->
+    <div class="footer">
+        <a class="footer-nav nav-gc" href="main.html">购彩</a> <a class="footer-nav nav-zh" href="acount.html">账户</a><a
+            class="footer-nav nav-kj" href="result.html">开奖</a>
+        <a class="footer-nav nav-xx" href="caiyuan.html">财园</a><a class="footer-nav nav-sz" href="more.html">更多</a>
+
+        <div class="cb"></div>
+    </div>
+</div>
+</body>
+</html>

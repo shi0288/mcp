@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>注册新用户</title>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width">
+    <link type="text/css" rel="stylesheet" href="css/reset.css"/>
+    <link type="text/css" rel="stylesheet" href="css/common.css"/>
+    <script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            sessionStorage.clear();
+            localStorage.clear();
+        });
+        function doSign() {
+            /* 表单验证*/
+            var re1 = /\w{3,16}/i;//3-16位数字或字母
+            var re2 = /\w{6,20}/i;//6-20位数字或字母
+            var tuname = $("#uname").val();
+            var tupass = $("#upass").val();
+            var repass = $("#repass").val();
+            if ($("#uname").val() == "") {
+                alert("请输入用户名");
+                return false;
+            }
+            if (!re1.test(tuname)) {
+                alert("用户名必须为3-16位字母或数字组合")
+                return false;
+            }
+            if ($("#upass").val() == "") {
+                alert("请输入密码");
+                return false;
+            }
+            if (!re2.test(tupass)) {
+                alert("密码必须为6-20位字母或数字组合")
+                return false;
+            }
+            if ($("#repass").val() == "") {
+                alert("请输入重复密码");
+                return false;
+            }
+            if ($("#repass").val() != $("#upass").val()) {
+                alert("两次输入密码不一致");
+                return false;
+            }
+            if (!$("#xieyi").hasClass("now")) {
+                alert("您必须同意用户注册协议");
+                return false;
+            }
+            /*end 表单验证*/
+            $.ajax({
+                type: "POST",
+                url: "/bankServices/LotteryService/register?timestamp=" + new Date().getTime(),
+                dataType: "json",
+                cache: false,
+                data: {
+                    userName: tuname,
+                    passWord: tupass,
+                    rePassWord: repass
+
+                },
+                success: function (result) {
+                    if (!result.description) {
+                        sessionStorage.setItem("login", "login");
+                        sessionStorage.setItem("name", tuname);
+                        sessionStorage.setItem("passWord", tupass);
+                        //显示注册成功
+                        $("#yhm").html(tuname);
+                        $("#zhuce").hide();
+                        $("#success").show();
+                    } else {
+                        alert(result.description);
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<div class="page-from-left index">
+    <!--注册-->
+    <div id="zhuce">
+        <div class="top fix">
+            <div class="top-add"><img src="img/guanggao_1.png"></div>
+            <div class="top-relative clearfix">
+                <a href="javascript:history.go(-1)" class="go-pre"></a>
+                <span class="title">注册新用户</span>
+                <!--<img id="top-lahuan" src="img/qian_top.png">-->
+            </div>
+        </div>
+        <div class="cb"></div>
+        <div class="content p10">
+            <div class="mb5"></div>
+            <div class="box-item clearfix">
+                <div class="bline ico-ren clearfix"><label
+                        class="login-lable">用&nbsp;&nbsp;户&nbsp;&nbsp;名：</label><span>
+                    <input id="uname" class="no-boder" type="text" placeholder="3-16位字母或数字组合"></span></div>
+                <div class="bline ico-suo clearfix"><label class="login-lable">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：</label><span>
+                    <input id="upass" class="no-boder" type="password" placeholder="6-20位字母或数字组合"></span></div>
+                <div class="bline ico-suo clearfix"><label class="login-lable">确认密码：</label><span>
+                    <input id="repass" class="no-boder" type="password" placeholder="请重复输入密码"></span></div>
+            </div>
+            <a onclick="doSign()" class=" m-bigbtn-org mt30">确认提交</a>
+
+            <p class="denglu-item clearfix"><a id="xieyi" href="javascript:void(-1)" class="check-org fl now"></a><span
+                    class="fl">我已满18岁并同意
+            <a href="yhfwagreement.html" target="_blank" class="bluetext">《用户注册协议》</a></span></p>
+        </div>
+    </div>
+    <!--end注册-->
+    <!--成功-->
+    <div id="success" style="display:none;">
+        <div class="top fix">
+            <!--<div class="top-add"><img src="img/guanggao_1.png"></div>-->
+            <div class="top-relative clearfix"><!--<img id="top-lahuan" src="img/qian_top.png">-->
+                <a href="main.html" class="go-pre"></a>
+                <span class="title"><span class="pt2">注册成功</span></span>
+            </div>
+        </div>
+        <div class="cb"></div>
+        <div class="content p10">
+            <p class="text-center p10 tz-success"><img src="img/big_gou_green2.png" width="40px"
+                                                       style="vertical-align:middle;"/>
+                <span class="greentext">恭喜您，注册成功</span></p>
+
+            <p class="gerytext mb5">请妥善保管好您的账户信息</p>
+
+            <p class="success-p">用户名：<span id="yhm" class="gerytext"></span></p>
+
+            <p class="success-bsj clearfix">
+                手机号：<span id="shouji" class="gerytext"></span><a class="btn-org fr" href="bmobile.html">绑定手机</a>
+            </p>
+
+            <p class="gerytext mt10">绑定手机提升账户安全及找回密码</p>
+            <a href="acount.html" class="m-bigbtn-light mt10"><img class="zhuce-head" src="img/ico_head.png"/>进入账户中心</a>
+            <a href="main.html" class="m-bigbtn-light mt10"><img class="zhuce-head" src="img/ico_head.png"/>返回购彩大厅</a>
+        </div>
+    </div>
+    <!--end成功-->
+</div>
+
+</div>
+</body>
+</html>

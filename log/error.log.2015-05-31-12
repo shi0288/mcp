@@ -1,0 +1,24 @@
+2015-05-31 12:00:40 ERROR [com.mcp.sv.cmbc.LotteryService] - {
+  "head": {
+    "messageId": "55db2b8ce15c472b898084b253731ea8",
+    "repCode": "0000",
+    "description": "系统处理成功",
+    "timestamp": "2015-05-31T12:00:40.462+0800",
+    "digestType": "md5",
+    "digest": "3fe0514c784678cab3378e8aab4dddb0"
+  },
+  "body": "{\"gameCode\":\"T01\",\"openTime\":\"2015-05-30 20:05:00\",\"closeTime\":\"2015-06-01 19:55:00\",\"bonusTime\":\"\",\"status\":1200,\"id\":\"T01_15062\",\"termCode\":\"15062\"}"
+}
+2015-05-31 12:00:40 ERROR [com.mcp.sv.cmbc.LotteryService] - ==================
+2015-05-31 12:00:49 ERROR [com.mcp.sv.cmbc.LotteryService] - {
+  "head": {
+    "messageId": "a7b84a5ff8f94a9db2408cd1a6f98f31",
+    "repCode": "0000",
+    "description": "系统处理成功",
+    "timestamp": "2015-05-31T12:00:49.107+0800",
+    "digestType": "md5",
+    "digest": "3de9bd2d735290b4e34b17becfd5698b"
+  },
+  "body": "{\"gameCode\":\"T01\",\"openTime\":\"2015-05-30 20:05:00\",\"closeTime\":\"2015-06-01 19:55:00\",\"bonusTime\":\"\",\"status\":1200,\"id\":\"T01_15062\",\"termCode\":\"15062\"}"
+}
+2015-05-31 12:00:49 ERROR [com.mcp.sv.cmbc.LotteryService] - ==================

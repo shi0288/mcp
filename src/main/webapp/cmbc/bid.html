@@ -1,0 +1,192 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>身份证绑定</title>
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width">
+<link type="text/css" rel="stylesheet" href="css/reset.css" />
+<link type="text/css" rel="stylesheet" href="css/common.css" />
+<style type="text/css">
+.box-item .bline label{ width:85px;}
+.box-item input{ width:165px;}
+</style>
+<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+<script charset="utf-8" src="js/iphone.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	var realName=sessionStorage.getItem("realName");	
+	var identityId=sessionStorage.getItem("identityId");
+	var cardNumber=sessionStorage.getItem("cardNumber");
+	if(realName!="null"&&realName!=null){
+		realName=realName.charAt(0)+"*";
+		var name='<span class="name" value="'+realName+'">'+realName+'</span>';
+		$("#realName").html(name);
+	}else{
+		$("#realName").html('<input id="relname" class="no-boder name" type="text" placeholder="一经填写不可修改">')
+	}
+	if(identityId!="null"&&identityId!=null){
+		var len=identityId.length;
+		var sidentityId=identityId.substring(0,3);
+		var eidentityId=identityId.substring(len-3,len);
+		var sidentityId=sidentityId+"************"+eidentityId;
+		var sid='<span class="sid" value="'+sidentityId+'">'+sidentityId+'</span>';
+		$("#identityId").html(sid);
+	}else{
+		$("#identityId").html('<input id="idcard" class="no-boder sid" type="text" placeholder="一经填写不可修改">')
+	}
+	if(cardNumber!="null"&& cardNumber!=null){
+		$("#cardNumber").html(cardNumber);	
+	}else{
+		$("#cardNumber").html('<input name="cardnum" id="cardnum" class="no-boder" type="text" placeholder="请输入银行卡号">');	
+	}
+	
+	if(realName=="null" || identityId=="null" || cardNumber=="null"||realName==null || identityId==null || cardNumber==null){
+		$("#rzBtn").css("display","block");	
+	}
+	
+	$("#rzBtn").click(function(){
+		var realName=$(".name").eq(0).attr("value");
+		var identityId=$(".sid").eq(0).attr("value");
+		var cardnum=$("#cardnum").val();
+		var ckName=checkName(realName);
+		//var ckCard=validateIdCard(identityId);	
+		/*验证姓名和身份证格式*/
+		if(!realName){
+			alert("请填写姓名");
+			return false;
+		}
+		/*if(!ckName){
+			alert("姓名格式不正确");
+			return false;
+		}*/
+		if(!identityId){
+			alert("请填写身份证号码");
+			return false;
+		}
+		if(!cardnum){
+			alert("请输入银行卡号");
+			return false;	
+		}
+		var reg=/^\d{16}|\d{19}$/;
+		var chekcard=reg.test(cardnum);
+		if(!chekcard){
+			alert("银行卡格式不正确");	
+			return false;
+		}
+		/*if(ckCard){
+			alert("身份证号码格式不正确");
+			return false;
+		}*/
+		
+		/*end验证姓名和身份证格式*/
+		
+		var body={'realName':realName,'identityId':identityId,'cardNumber':cardnum};
+		$.ajax({           
+				type : "POST",          
+				url  : "/bankServices/LotteryService/commonTrans?timestamp=" + new Date().getTime(),
+				dataType: "json",
+				cache : false,            
+				data: {
+					cmd: 'A05',
+                    Id: sessionStorage.getItem("Id"),
+                    St: sessionStorage.getItem("St"),
+					body: JSON.stringify(body)
+		        },             
+				success : function(result) {
+					var repCode = result.repCode;
+					if(repCode=='0000'){
+						alert("实名认证成功");
+						sessionStorage.setItem("realName", realName);
+						sessionStorage.setItem("identityId", identityId);
+						sessionStorage.setItem("cardNumber", cardnum);
+						window.location.href="acount.html";
+					}else{
+						alert(result.description);
+					}
+				}
+		});
+	});
+});
+function checkName(oName){
+	var re=/^[\u4e00-\u9fa5]{1,5}[\u4e00-\u9fa5]$/;
+	return re.test(oName);
+}
+/*function validateIdCard(obj){
+ 	var aCity={11:"北京",12:"天津",13:"河北",14:"山西",15:"内蒙古",21:"辽宁",22:"吉林",23:"黑龙 江",31:"上海",32:"江苏",33:"浙江",34:"安徽",35:"福建",36:"江西",37:"山东",41:"河南",42:"湖 北",43:"湖南",44:"广东",45:"广西",46:"海南",50:"重庆",51:"四川",52:"贵州",53:"云南",54:"西 藏",61:"陕西",62:"甘肃",63:"青海",64:"宁夏",65:"新疆",71:"台湾",81:"香港",82:"澳门",91:"国 外"};
+  	var iSum = 0;
+ 	//var info = "";
+ 	var strIDno = obj;
+ 	var idCardLength = strIDno.length;
+ 	if(!/^\d{17}(\d|x)$/i.test(strIDno)&&!/^\d{15}$/i.test(strIDno))
+        return 1; //非法身份证号
+ 	if(aCity[parseInt(strIDno.substr(0,2))]==null)
+ 		return 2;// 非法地区
+  	// 15位身份证转换为18位
+ 	if (idCardLength==15)
+ 	{
+    	sBirthday = "19" + strIDno.substr(6,2) + "-" + Number(strIDno.substr(8,2)) + "-" + Number(strIDno.substr(10,2));
+  		var d = new Date(sBirthday.replace(/-/g,"/"))
+  		var dd = d.getFullYear().toString() + "-" + (d.getMonth()+1) + "-" + d.getDate();
+  		if(sBirthday != dd)
+        	return 3; //非法生日
+        strIDno=strIDno.substring(0,6)+"19"+strIDno.substring(6,15);
+        strIDno=strIDno+GetVerifyBit(strIDno);
+ 	}
+    // 判断是否大于2078年，小于1900年
+    var year =strIDno.substring(6,10);
+	if (year<1900 || year>2078 )
+    	return 3;//非法生日
+    //18位身份证处理
+   	//在后面的运算中x相当于数字10,所以转换成a
+    strIDno = strIDno.replace(/x$/i,"a");
+  	sBirthday=strIDno.substr(6,4)+"-"+Number(strIDno.substr(10,2))+"-"+Number(strIDno.substr(12,2));
+  	var d = new Date(sBirthday.replace(/-/g,"/"))
+  	if(sBirthday!=(d.getFullYear()+"-"+ (d.getMonth()+1) + "-" + d.getDate()))
+    	return 3; //非法生日
+    // 身份证编码规范验证
+  	for(var i = 17;i>=0;i --)
+   		iSum += (Math.pow(2,i) % 11) * parseInt(strIDno.charAt(17 - i),11);
+  		if(iSum%11!=1)
+        	return 1;// 非法身份证号
+   	//判断是否屏蔽身份证
+    var words = new Array();
+    words = new Array("11111119111111111","12121219121212121");
+
+    for(var k=0;k<words.length;k++){
+        if (strIDno.indexOf(words[k])!=-1){
+            return 1;
+        }
+    }
+ 	return 0;
+}*/
+</script>
+</head>
+<body>
+<div class="page-from-left index">
+	<div class="top fix">
+    	<div class="top-relative clearfix">
+        	<a href="javascript:history.go(-1)" class="go-pre"></a>
+        	<span class="title">实名认证</span>
+         </div>
+    </div>
+    <div class="cb"></div>
+<!--顶部结束-->
+<!--正文内容开始-->
+    <div class="content p10">
+    	<div class="box-item-nbg clearfix">
+        	<div class="bline clearfix" style="padding:8px 0px 8px 10px"><label>真实姓名：</label><span id="realName"></span></div>
+            <div class="bline clearfix" style="padding:8px 0px 8px 10px"><label>身份证号：</label><span id="identityId"></span></div>
+            <div class="bline clearfix" style="padding:8px 0px 8px 10px; border-bottom:0px;"><label>民生卡号：</label><span id="cardNumber"></span></div>
+        </div>
+        <a id="rzBtn" href="javascript:void(-1)" class="m-bigbtn-org mt10" style="display:none;">确认提交</a>
+   </div>
+<!--正文内容结束-->   
+<!--底部开始-->
+	<div class="footer">
+    	<a class="footer-nav nav-gc" href="main.html">购彩</a> <a class="footer-nav nav-zh" href="acount.html">账户</a><a class="footer-nav nav-kj" href="result.html">开奖</a>
+        <a class="footer-nav nav-xx" href="caiyuan.html">财园</a><a class="footer-nav nav-sz" href="more.html">更多</a><div class="cb"></div>
+    </div>
+</div>
+</body>
+</html>

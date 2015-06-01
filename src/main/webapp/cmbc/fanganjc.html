@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>中奖的方案详情</title>
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width">
+<link type="text/css" rel="stylesheet" href="css/reset.css" />
+<link type="text/css" rel="stylesheet" href="css/common.css" />
+<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript">
+$(document).ready(function(e) {
+	before();
+	var orderId=window.location.href;
+	orderId=orderId.split("#");
+    var body = {
+				'showTickets' : true,
+				'orderId' : orderId[1]
+			};
+		$.ajax({           
+			type : "POST",          
+			url  : "/bankServices/LotteryService/commonTrans?timestamp=" + new Date().getTime(),
+			dataType: "json",
+			cache : false,
+			data: {
+				cmd: 'Q03',
+                Id: sessionStorage.getItem("Id"),
+                St: sessionStorage.getItem("St"),
+				body: JSON.stringify(body)
+			},             
+			success : function(result) {
+				var repCode = result.repCode;
+				if(repCode=='0000'){
+					var termCode=result['rst'][0]['termCode'];
+					var time=result['rst'][0]['createTime'];
+					var amount=result['rst'][0]['amount'];
+					var status=result['rst'][0]['status'];
+					var bei=result['rst'][0]['multiple'];
+					var zhu=result['rst'][0]['amount']/100;
+					zhu=zhu/bei;
+					zhu=zhu/2;
+					amount=toDecimalMoney(amount/100);
+					time=time.substring(0,19);
+					time=time.replace("T"," ");
+					status=getOrderStatus(status);
+					var orderId2=result['rst'][0]['id'];
+					orderId2=orderId2.substring(orderId2.length-18,orderId2.length-1);
+					var bonus=result['rst'][0]['bonus'];
+					bonus=parseInt(bonus);
+					//如果中奖显示中奖图片
+					if(bonus!=0){
+						$(".content").eq(0).addClass("zj-content");	
+						$(".gooddo").show();
+						$(".xiangyun").show();						
+						bouns=toDecimalMoney(bonus/100);
+						status="<font class='redtext'>中奖:"+bouns+"元</font>";
+					}
+					$("#czqi").html(termCode);
+					$("#cztime").html(time);
+					$("#orderId").html(orderId2);	
+					$("#amount").html(amount);
+					$("#state").html(status);
+					$("#multiple").html(bei);
+					$("#zhu").html(zhu);				
+				}else{
+					alert(result.description);
+				}
+				after();
+			},
+			error : onError     
+		});
+});
+//根据彩种和期号查询开奖号码
+function getZjNum(gameCode,termCode){
+	var arr;
+	var body = {
+				'type' : 0,
+				'terms':[{"gameCode":gameCode,"termCode":termCode}]
+			};
+		$.ajax({           
+			type : "POST",          
+			url  : "/bankServices/LotteryService/commonTrans?timestamp=" + new Date().getTime(),
+			dataType: "json",
+			cache : false, 
+			async:false,           
+			data: {
+				cmd: 'Q01',
+				body: JSON.stringify(body)
+			},             
+			success : function(result) {
+				var repCode = result.repCode;
+				if(repCode=='0000'){
+					arr=result['rst'][0];
+				}else{
+					alert(result.description);		
+				}
+			},
+			error : onError   
+		});	
+		return arr;
+}
+</script>
+</head>
+<body>
+<div class="page-from-left index">
+	<div class="top fix">
+    	<div class="top-relative clearfix">
+        	<a href="acount.html" class="go-pre"></a>
+        	<span class="title">方案详情</span>
+        </div>
+    </div>
+    <div class="cb"></div>
+<!--顶部结束-->
+<!--正文内容开始-->	
+	<div class="content faxq pt10 pl5 pr5">
+    	<div class="zhanghu-litt"></div>
+        <div class="fa-box1 clearfix">
+        	 <img class="gooddo" src="img/good_01.png"/>
+        	 <div class="fa-line clearfix pl10"><h4 class="fl">竞彩足球</h4><span id="cztime" class="gretime" style="margin-right:5px;"></span></div>
+        	 <div class="fl caizhong"><img src="img/ico_jczq.png"/></div>
+             <div class="touxiang-rightbox">
+                    <p style="display:block; max-width:260px; font-size:15px; color:#8B8B8B;">订单号：<font id="orderId"></font></p>
+                    <p style="display:block; font-size:15px; color:#8B8B8B; padding-bottom:10px;" class="clearfix">
+                    	<span style="min-width:60px;">
+                        	<font id="multiple" class="redtext"></font>倍<font id="zhu" class="redtext"></font>注
+                        </span>
+                   		 &nbsp;&nbsp;&nbsp;投注：￥<font id="amount"></font><br/><span style="min-width:50px;" id="state"></span>
+                    </p>
+              </div>                
+        </div>	
+        <div class="comm-box clearfix mt10 pb10" style="display:none;">
+        	<p style="display:none;"><font id="bsm"></font></p>
+            <p class="p10">投注内容</p>
+            <table class="text-center" width="100%">
+            	<!--<thead><tr class="fa-line"><th width="18%">序号</th><th width="18%">主队</th><th width="8%">&nbsp;</th>
+                		<th width="18%">客队</th><th width="18%">玩法</th><th width="18%">比分</th></tr></thead>
+               -->
+                	<!--l1-->
+                    <tbody  id="touzhuhaoma"></tbody>
+            </table>
+        </div>
+        <img src="img/xiangyun.png" class="xiangyun"/>
+        <!--<a class="roubtn mt15 clearfix"><span class="fl">追号详情</span><img class="fr" src="img/gogo_01.png"></a>-->
+        <!--<a class="roubtn mt10 clearfix"><span class="fl">跟单详情</span><img class="fr" src="img/gogo_01.png"></a>-->
+    </div>    
+<!--正文内容结束-->   
+<!--投注底部开始-->
+</body>
+</html>

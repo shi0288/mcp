@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>购彩帮助</title>
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <link rel="stylesheet" type="text/css" href="css/jq.ui.css?1290022">
+    <script charset="utf-8" src="js/jq.mobi.min.js"></script>
+    <script charset="utf-8" src="js/lottery.js"></script>
+    <script charset="utf-8" src="js/iphone.js"></script>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width">
+    <link type="text/css" rel="stylesheet" href="css/reset.css"/>
+    <script type="text/javascript" src="/cmbc/js/platform.js"></script>
+    <link type="text/css" rel="stylesheet" href="css/reset.css"/>
+    <link type="text/css" rel="stylesheet" href="css/common.css"/>
+    <script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript">
+        //判断是否是ios客户端
+        $(document).ready(function (e) {
+            /*position absolute*/
+            var browser = {
+                versions: function () {
+                    var u = navigator.userAgent, app = navigator.appVersion;
+                    return {
+                        trident: u.indexOf('Trident') > -1, //IE内核
+                        presto: u.indexOf('Presto') > -1, //opera内核
+                        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+                        mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/), //是否为移动终端
+                        ios: !!u.match(/(i[^;]+\;(U;)? CPU.+Mac OS X)/), //ios终端
+                        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+                        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+                        iPad: u.indexOf('iPad') > -1, //是否iPad
+                        webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
+                    }
+                }(),
+                language: (navigator.browserLanguage || navigator.language).toLowerCase()
+            }
+            if (browser.versions.android) {
+                var hh1 = $(".top").height();
+                var hh2 = $(".footer-tz").height();
+                var hh = $(window).height() - hh1 - hh2;
+                $(".content").css({"max-height": hh + "px", "overflow-y": "scroll", "margin-bottom": "0px"});
+                $(".top").css("position", "absolute");
+                $("html").css({"height": "100%", "overflow-y": "hidden"});
+                $("body").css({"height": "100%", "overflow-y": "hidden"});
+            }
+            /*position absolute end*/
+        });
+    </script>
+</head>
+<body>
+<div class="page-from-left index">
+    <div class="top fix">
+        <div class="top-relative clearfix">
+            <a href="index.jsp" class="go-pre"></a>
+            <span class="title">购彩帮助</span>
+        </div>
+    </div>
+    <div class="cb"></div>
+    <!--顶部结束-->
+    <!--正文内容开始-->
+    <div class="content p10">
+        <div class="help-item">
+            <div class="help-item-title">一、如何购彩？</div>
+            <div>您无需单独注册彩票账户，开通手机银行的用户可以登陆。</div>
+        </div>
+        <div class="help-item">
+            <div class="help-item-title">二、如何购买？</div>
+            <div>登录成功后进入“购买彩票”页面进行投注，首次购买彩票需完善姓名、身份证等个人信息，该信息后期不可修改，请填写本人真实姓名和有效身份证号码。</div>
+        </div>
+        <div class="help-item">
+            <div class="help-item-title">三、如何查看购彩明细？</div>
+            <div>点击“我的彩票”可查看投注和中奖明细。</div>
+        </div>
+        <div class="help-item">
+            <div class="help-item-title">四、如何支付？</div>
+            <div>购买彩票可通过彩币方式支付，当您的彩币余额满足支付条件时，在确认投注页面会显示彩币支付选项，彩币可通过银行卡充值或奖金转彩币获取。</div>
+        </div>
+        <div class="help-item">
+            <div class="help-item-title">五、怎么兑奖？</div>
+            <div>
+                用户登录后会自动获得一个奖金账户，彩票中奖后，奖金自动存入奖金账户，用户可随时进入账户中心申请提现，提现成功后中奖奖金会转入用户绑定的银行卡中。奖金账户小于1万元可直接申请提现成功，奖金账户大于1万元（含）申请提现后由人工电话联系用户协助办理提现事宜。
+            </div>
+        </div>
+        <div class="help-item">
+            <div class="help-item-title">六、什么是委托代领？</div>
+            <div>单注中奖金额超过1万元（含）可委托中期彩代为领奖。用户可将身份证复印件、姓名和银行卡号传真至中期彩，待确认领奖信息无误后，由中期彩代领并为用户转账。单注中奖金额超过20万元，用户必须亲自领奖。
+            </div>
+        </div>
+        <div class="help-item">
+            <div class="help-item-title">七、中奖金额达到多少要缴税？</div>
+            <div>
+                单注中奖金额超过1万元（含）需要缴纳20%的个人所得税。这里所说的1万元指单注奖金而不是总奖金。比如您购买5注同样的号码，且每注中奖5000元，虽然总奖金达到25000元，但由于单注奖金未超过1万元，您不需要缴纳个人所得税。
+            </div>
+        </div>
+        <div class="help-item">
+            <div class="help-item-title">八、提现有手续费吗？</div>
+            <div>目前提现不收取任何手续费。</div>
+        </div>
+        <div class="help-item">
+            <div class="help-item-title">九、提现后多久能够到账？</div>
+            <div>申请提现成功后奖金将在两个工作日内（节假日除外）转入您的银行卡中。</div>
+        </div>
+        <div class="help-item">
+            <div class="help-item-title">十、为什么提现不成功？</div>
+            <div>提现银行卡信息必须和您的购彩账户信息（姓名、身份证号）一致方可提现成功。</div>
+        </div>
+        <div class="help-item">
+            <div class="help-item-title">十一、能提现到其他行的银行卡吗？</div>
+            <div>奖金只能提现到您本人名下的民生银行储蓄卡中。</div>
+        </div>
+        <div class="help-item" style="border-bottom:0px;">
+            <div class="help-item-title">十二、为什么有时候会投注失败？</div>
+            <div>投注失败的原因有很多种，可能由于您手机断网，也可能是当期投注已经截止。如果您投注不成功，但银行账户实际已扣款，系统将自动退款，如有问题请及时拨打4007001898。</div>
+        </div>
+    </div>
+    <!--正文内容结束-->
+</div>
+</body>
+</html>

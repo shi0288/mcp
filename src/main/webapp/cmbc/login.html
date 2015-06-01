@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>登录</title>
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width">
+<link type="text/css" rel="stylesheet" href="css/reset.css" />
+<link type="text/css" rel="stylesheet" href="css/common.css" />
+<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {	
+	var name=localStorage.getItem("name");
+	var password=localStorage.getItem("password");
+	//自动登录
+	//autoLogin(name,password);
+	if(name!="null"){
+		$("#name").val(name);	
+	}
+	if(password!="null"){
+		$("#password").val(password);
+	}
+	$("#login_btn").click(function(){
+		 name = $("#name").val();
+		 password = $("#password").val();
+		if(name==""||password==""){
+			alert("请输入您的用户名和密码");
+			return false;
+		}
+		login(name,password);
+	}); 
+	//记住用户名密码
+	$("#name").blur(function(){
+		if($(this).val()!=""){
+			localStorage.setItem("name",$(this).val());	
+		}	
+	});	
+	$("#password").blur(function(){
+		if($(this).val()!=""){
+			localStorage.setItem("password",$(this).val());	
+		}	
+	});
+});
+//自动登录
+function autoLogin(name,password){
+	if($("#autoLogin").hasClass("now")){
+		 login(name,password);	
+	}	
+}	
+//登录
+function login(name,password){
+		$.ajax({
+			type : "POST",          
+			url  : "/bankServices/LotteryService/login?timestamp=" + new Date().getTime(),
+			dataType: "json",
+			cache : false,
+			data: {
+				'userName' : name,
+				'passWord' : password
+			},             
+			success : function(result) {
+				if(!result.description){
+					//登陆成功
+					sessionStorage.setItem("login", "login");
+					sessionStorage.setItem("name", name);
+					sessionStorage.setItem("passWord", password);
+					window.location.href="acount.html";
+				}else{
+					alert(result.description);
+				}
+			},
+			error : onError        
+		});	
+}
+
+</script>
+</head>
+<body>
+<div class="page-from-left index">	
+	<div class="top fix">
+    	<div class="top-relative clearfix">
+        	<a href="index.jsp" class="go-pre"></a>
+        	<span class="title">登录</span>
+         </div>
+    </div>
+    <div class="cb"></div>
+<!--顶部结束-->
+<!--正文内容开始-->
+    <div class="content p10">
+    	<div class="mb5"></div>
+    	<div class="box-item clearfix">
+        	<div class="bline ico-ren clearfix"><label style="width:80px;">用户名：</label><span><input id="name" class="no-boder" type="text" placeholder="请输入用户名"></span></div>
+            <div class="bline ico-suo clearfix"><label style="width:80px;">密码：</label><span><input id="password" class="no-boder" type="password" placeholder="请输入密码"></span></div>
+        </div>
+        <p class="denglu-item clearfix"><a href="javascript:void(-1)" class="check-org fl now" id="autoLogin"></a><span class="fl">自动登录</span><a class="fr ico-yaoshi" href="findpass.html">忘记密码</a></p>
+        <div style="margin:10px auto;" class="clearfix">
+       <a id="login_btn"  class=" m-bigbtn-org mt30">登录</a>
+       <a href="sign.html" class=" m-bigbtn-org mt15">快速注册</a>		
+		</div>
+   </div>
+<!--正文内容结束-->   
+
+
+</div>
+</body>
+</html>

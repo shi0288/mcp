@@ -1,0 +1,249 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>账户明细</title>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width">
+    <link type="text/css" rel="stylesheet" href="css/reset.css"/>
+    <link type="text/css" rel="stylesheet" href="css/common.css"/>
+    <style type="text/css">.acdetail .tab-nav, .acdetail .tab-navv {
+        width: 25%;
+    }</style>
+    <script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //登录
+            var userName = sessionStorage.getItem("name");
+            var passWord = sessionStorage.getItem("passWord");
+            getMoneyData(userName,passWord);
+            //登录END
+            var pageSize = 8;
+            var entityIds = [];
+            // entityIds.push(accountId);
+            //点击加载
+            $("#load0").die().live("click", function () {
+                var aPage = $(".tab-content").eq(0).find(".page");
+                var ipage = aPage.attr("data-page");
+                var actype = aPage.attr("data-type");
+                ipage = parseInt(ipage);
+                cjAjax(userName, passWord, ipage, pageSize, actype, $(".tab-content").eq(0));
+            });
+            $("#load1").die().live("click", function () {
+                var aPage = $(".tab-content").eq(1).find(".page");
+                var ipage = aPage.attr("data-page");
+                var actype = aPage.attr("data-type");
+                ipage = parseInt(ipage);
+                cjAjax(entityIds, ipage, pagesize, actype, $(".tab-content").eq(1));
+            });
+            $("#load2").die().live("click", function () {
+                var aPage = $(".tab-content").eq(2).find(".page");
+                var ipage = aPage.attr("data-page");
+                var actype = aPage.attr("data-type");
+                ipage = parseInt(ipage);
+                cjAjax(entityIds, ipage, pagesize, actype, $(".tab-content").eq(2));
+            });
+            $("#load3").die().live("click", function () {
+                var aPage = $(".tab-content").eq(3).find(".page");
+                var ipage = aPage.attr("data-page");
+                var actype = aPage.attr("data-type");
+                ipage = parseInt(ipage);
+                cjAjax(entityIds, ipage, pagesize, actype, $(".tab-content").eq(3));
+            });
+            /*滚动加载*/
+            /*$(window).scroll(function(){
+             var dheight=$(document).height();
+             var wheight=$(window).height();
+             var sctop=$(window).scrollTop();
+             if(sctop>=dheight-wheight){
+             if($(".tab-navv").eq(0).hasClass("now")){
+             var aPage=$(".tab-content").eq(0).find(".page");
+             var ipage=aPage.attr("data-page");
+             var actype=aPage.attr("data-type");
+             ipage=parseInt(ipage);
+             cjAjax(entityIds,ipage,pagesize,actype,$(".tab-content").eq(0));
+             }
+             if($(".tab-navv").eq(1).hasClass("now")){
+             var aPage=$(".tab-content").eq(1).find(".page");
+             var ipage=aPage.attr("data-page");
+             var actype=aPage.attr("data-type");
+             ipage=parseInt(ipage);
+             cjAjax(entityIds,ipage,pagesize,actype,$(".tab-content").eq(1));
+             }
+             if($(".tab-navv").eq(2).hasClass("now")){
+             var aPage=$(".tab-content").eq(2).find(".page");
+             var ipage=aPage.attr("data-page");
+             var actype=aPage.attr("data-type");
+             ipage=parseInt(ipage);
+             cjAjax(entityIds,ipage,pagesize,actype,$(".tab-content").eq(2));
+             }
+             if($(".tab-navv").eq(3).hasClass("now")){
+             var aPage=$(".tab-content").eq(3).find(".page");
+             var ipage=aPage.attr("data-page");
+             var actype=aPage.attr("data-type");
+             ipage=parseInt(ipage);
+             cjAjax(entityIds,ipage,pagesize,actype,$(".tab-content").eq(3));
+             }
+             }
+             });*/
+        });
+        function getMoneyData(userName,passWord) {
+            var pageSize = 8;
+            var curPage = 1;
+            $(".tab-content").each(function () {
+                var accountType = $(this).find(".page").attr("data-type");
+                var elem = $(this);
+                cjAjax(userName, passWord, curPage, pageSize, accountType, elem);
+            });
+            $(".tab-navv").click(function () {
+                if (!$(this).hasClass("now")) {
+                    var i = $(this).index(".tab-navv");
+                    $(".tab-navv").removeClass("now").eq(i).addClass("now");
+                    $(".tab-content").hide().eq(i).show();
+                    if ($(".tab-dot").length > 0) {
+                        $(".tab-dot").removeClass("now").eq(i).addClass("now");
+
+                    }
+                }
+            });
+        }
+        function cjAjax(userName, passWord, curPage, pageSize, accountType, elem) {
+//    var nohtml = '<div class="acdetail-nodata">暂不支持查询</div>';
+//    elem.html(nohtml);
+//    return false;
+            $.ajax({
+                type: "POST",
+                url: "/bankServices/LotteryService/getLogs?timestamp=" + new Date().getTime(),
+                dataType: "json",
+                cache: false,
+                data: {
+                    'userName': userName,
+                    'passWord': passWord,
+                    'accountType': accountType,
+                    'curPage': curPage,
+                    'pageSize': pageSize
+                },
+                success: function (result) {
+                    var repCode = result.repCode;
+                    if (repCode == "0000") {
+                        console.log(result['rst'].length);
+                        if (result['rst'].length <= 0) {
+                            var ind = elem.index(".tab-content");
+                            elem.find("#load" + ind).remove();
+                            var nohtml = '<div class="acdetail-nodata">暂无记录</div>';
+                            elem.append(nohtml);
+                            return false;
+                            //到这了
+                        }
+                        var ind = elem.index(".tab-content");
+                        elem.find("#load" + ind).remove();
+                        $.each(result['rst'], function (key, val) {
+                            getCaijin(val, elem, curPage, pageSize);
+                        });
+                        var zpage = elem.find(".page").eq(0).attr("data-page");
+                        zpage = parseInt(zpage) + 1;
+                        elem.find(".page").eq(0).attr("data-page", zpage);
+                        var ssshtml = '<div id="load' + ind + '" class="text-center greentext mt30">点击加载</div>'
+                        elem.append(ssshtml);
+                    } else {
+                        alert(result.description);
+                    }
+                }
+            });
+        }
+
+        function getType(str) {
+            var type = [];
+            switch (str) {
+                case 0:
+                    type[0] = "投注支付";
+                    type[1] = "img/ico_gwc.png";
+                    return type;
+                    break;
+            }
+        }
+        function getLocalTime(Stamp) {
+            /*return new Date(Stamp).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");  */
+            Stamp = new Date(Stamp);
+            var month = Stamp.getMonth() + 1 < 10 ? "0" + (Stamp.getMonth() + 1) : Stamp.getMonth() + 1;
+            var currentDate = Stamp.getDate() < 10 ? "0" + Stamp.getDate() : Stamp.getDate();
+            var hh = Stamp.getHours() < 10 ? "0" + Stamp.getHours() : Stamp.getHours();
+            var mm = Stamp.getMinutes() < 10 ? "0" + Stamp.getMinutes() : Stamp.getMinutes();
+            return Stamp.getFullYear() + "-" + month + "-" + currentDate + "-" + hh + ":" + mm;
+
+        }
+        function getCaijin(val, elem, page, pagesize) {
+            val = JSON.parse(val);
+            var afterMoney = val['afterMoney'];
+            afterMoney = toDecimalMoney(afterMoney / 100);
+            var time = val['createTime'];
+            var money = val['money'];
+            money = toDecimalMoney(money / 100);
+            var type = getType(val["type"]);
+            if (type) {
+                var typeHtml = '<img width="24" class="fl" src="' + type[1] + '">' +
+                        '<span class="fl">' + type[0] + '</span>';
+            }
+            var html = '<div class="acdetail-list fist clearfix">' +
+                    '<div class="border-bottom clearfix">' + typeHtml + '<span class="fr time">' + time + '</span>' +
+                    '</div>' +
+                    '<div class="clearfix"><span class="fl"><font class="greentext">' + money + '</font>元</span>' +
+                    '<span class="fr">余额 <font class="redtext">' + afterMoney + '</font> 元</span></div>' +
+                    '<a class="go fr" href="#"></a>' +
+                    '</div>';
+            elem.append(html);
+        }
+    </script>
+</head>
+<body>
+<div class="page-from-left index">
+    <div class="top fix">
+        <!--<div class="top-add"><img src="img/guanggao_1.png"></div>-->
+        <div class="top-relative clearfix"><!--<img id="top-lahuan" src="img/qian_top.png">-->
+            <a href="javascript:history.go(-1)" class="go-pre"></a>
+            <span class="title">账户明细</span>
+        </div>
+    </div>
+    <div class="cb"></div>
+    <!--顶部结束-->
+    <!--正文内容开始-->
+    <div class="content pt10 pl5 pr5 pb10">
+        <div class="zhanghu-tab acdetail">
+            <div class="nav-box clearfix">
+                <a class="tab-navv now" href="javascript:void(-1)">彩金</a><a class="tab-navv" href="javascript:void(-1)">奖金</a>
+                <a class="tab-navv" href="javascript:void(-1)">充值</a><a class="tab-navv"
+                                                                        href="javascript:void(-1)">提款</a>
+            </div>
+            <!--彩金-->
+            <div class="tab-content" style="display:block;">
+                <span class="page" data-type="0" data-page="0" style="width:0px; height:0px;"></span>
+            </div>
+            <!-- 奖金-->
+            <div class="tab-content">
+                <span class="page" data-type="1" data-page="0" style="width:0px; height:0px;"></span>
+            </div>
+            <!--充值-->
+            <div class="tab-content">
+                <span class="page" data-type="2" data-page="0" style="width:0px; height:0px;"></span>
+            </div>
+            <!--提款-->
+            <div class="tab-content">
+                <span class="page" data-type="3" data-page="0" style="width:0px; height:0px;"></span>
+            </div>
+            <!--            <div class="clearfix zhanghu-dian"><span class="tab-dot now"></span><span class="tab-dot"></span><span class="tab-dot"></span><span class="tab-dot"></span></div>
+            -->        </div>
+    </div>
+    <!--正文内容结束-->
+    <!--底部开始-->
+    <div class="footer">
+        <a class="footer-nav nav-gc" href="index.html">购彩</a> <a class="footer-nav nav-zh" href="acount.html">账户</a><a
+            class="footer-nav nav-kj" href="result.html">开奖</a>
+        <a class="footer-nav nav-xx" href="caiyuan.html">财园</a><a class="footer-nav nav-sz" href="more.html">更多</a>
+
+        <div class="cb"></div>
+    </div>
+</div>
+</body>
+</html>
+

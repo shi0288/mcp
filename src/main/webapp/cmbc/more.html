@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>设置</title>
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width">
+<link type="text/css" rel="stylesheet" href="css/reset.css" />
+<link type="text/css" rel="stylesheet" href="css/common.css" />
+<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+</head>
+<body>
+<div class="page-from-left index">
+	<div class="top fix">
+    	<div class="top-add"><img src="img/guanggao_1.png"></div>
+    	<div class="top-relative clearfix">
+        	<span class="title nob-title">更多功能</span>
+            <!--<img id="top-lahuan" src="img/qian_top.png">-->
+         </div>
+    </div>
+    <div class="cb"></div>
+<!--顶部结束-->
+<!--正文内容开始-->
+    <div class="content" id="more">
+    	<ul id="more-ul">
+        	<li><a class="ico-box" href="gchelp.html"><img src="img/icoy_4.png" />购彩帮助</a></li>
+            <li><a class="ico-box" href="aboutus.html"><img src="img/icoy_5.png" />	关于我们</a></li>
+            <li><a class="ico-box" href="EZmcp://versionupdate"><img src="img/icoy_8.png" />	版本更新</a></li>
+            <li><a class="ico-box" id="do-tel" href="javascript:void(-1)"><img src="img/icoy_9.png" />联系客服</a></li>
+            <li> <a class="ico-box" href="shezhi.html"><img src="img/icoy_10.png" />系统设置</a></li>
+            <li><a class="ico-box" id="dl-zc" style="display:none;" href="login.html"><img src="img/icoy_1.png"/>登录/注册</a></li>
+            <li><a class="ico-box" id="tui-dl" style="display:none;" href="javascript:void(-1)"><img src="img/icoy_2.png"/>退出登录</a></li>
+        </ul>      
+    </div>
+<!--正文内容结束--> 
+<!--客服电话--> 
+<div id="kefu-tel">
+	<p>客服电话：400-700-1898</p>	
+    <a class="bigbtn-red" href="EZmcp://telephoneserve">拨打电话</a>
+	<div class="bigbtn-grey" id="hide-tel">取消</div>
+</div> 
+<script type="text/javascript">
+$(document).ready(function() {
+	var login=sessionStorage.getItem("login");
+	if(login!="login"){
+		$("#dl-zc").show();
+	}else{
+		$("#tui-dl").show();	
+	}
+	//拨打客服电话
+    $("#do-tel").click(function(){
+		$("#kefu-tel").css("bottom","58px");
+	});
+	$("#hide-tel").click(function(){
+		$("#kefu-tel").css("bottom","-110px");
+	});
+	//登出
+	$("#tui-dl").click(function(){
+		sessionStorage.clear();
+		message("登出成功");
+		window.location.reload();
+	});
+	
+});
+</script>
+<!--底部开始-->
+	<div class="footer">
+    	<a class="footer-nav nav-gc" href="main.html">购彩</a> <a class="footer-nav nav-zh" href="acount.html">账户</a><a class="footer-nav nav-kj" href="result.html">开奖</a>
+        <a class="footer-nav nav-xx" href="caiyuan.html">财园</a><a class="footer-nav nav-sz now" href="more.html">更多</a><div class="cb"></div>
+    </div>
+</div>
+</body>
+</html>
