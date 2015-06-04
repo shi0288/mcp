@@ -1,7 +1,6 @@
 package com.mcp.sv.cmbc;
 
 import com.mcp.sv.util.MongoConst;
-import com.mcp.sv.util.MongoManager;
 import com.mcp.sv.util.MongoUtil;
 import com.mongodb.*;
 import com.mongodb.util.JSON;
@@ -11,7 +10,6 @@ import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -235,6 +233,68 @@ public class LotteryDao {
             return "找不到此订单：" + outerId;
         }
         return "用户订单状态更新异常";
+    }
+
+
+    //添加地址
+    public static String addAddress(String userName, String passWord, String address,String phone,String name) {
+        //查询库中是否有此用户
+        Map param = new HashMap();
+        param.put("userName", userName);
+        param.put("passWord", passWord);
+        Map param1 = new HashMap();
+        param1.put("userName", userName);
+        List datas = MongoUtil.query(MongoConst.MONGO_USERS, param);
+        logger.info("用户添加地址：" + userName);
+        if (datas.size() > 0) {
+            List addresss = MongoUtil.query(MongoConst.MONGO_USERS_ADDRESS, param1);
+            if (addresss.size() > 0) {
+                param.put("addressId", datas.size()+1);
+            }else {
+                param.put("addressId", 1);
+            }
+        }
+        param.put("userName", userName);
+        param.put("address", address);
+        param.put("phone", phone);
+        param.put("name", name);
+        int res = MongoUtil.save(MongoConst.MONGO_USERS_ADDRESS, param);
+        if (res != 0) {
+            return "插入地址表失败";
+        }
+        return "";
+    }
+
+    //查询已经存在地址
+    public static String queryAddress(String userName, String passWord) {
+        //查询库中是否有此用户
+        JSONObject res = new JSONObject();
+        JSONObject req = new JSONObject();
+        Map param = new HashMap();
+        param.put("userName", userName);
+        param.put("passWord", passWord);
+        List datas = MongoUtil.query(MongoConst.MONGO_USERS, param);
+        logger.info("用户添加地址：" + userName);
+        if (datas.size() > 0) {
+            List addresss = MongoUtil.query(MongoConst.MONGO_USERS_ADDRESS, param);
+            if(addresss.size() >= 1){
+                for (int i=0;i<addresss.size();i++){
+                    DBObject address = (DBObject) addresss.get(i);
+
+                }
+//                res.put("acount", new JSONObject(JSON.serialize(acount)));
+            }
+        }else{
+            param.put("addreddId", 1);
+        }
+        param.put("userName", userName);
+//        param.put("address", address);
+//        param.put("phone", phone);
+//        int res = MongoUtil.save(MongoConst.MONGO_USERS_ADDRESS, param);
+//        if (res != 0) {
+//            return "插入地址表失败";
+//        }
+        return "";
     }
 
     public static String getTime() {

@@ -53,7 +53,6 @@ public class DESEncrypt {
      * @param strIn 需要转换的字符串
      * @return 转换后的byte数组
      * @throws Exception 本方法不处理任何异常，所有异常全部抛出
-     * @author <a href="mailto:zhangji@aspire-tech.com">ZhangJi</a>
      */
     public static byte[] hexStr2ByteArr(String strIn)
         throws Exception

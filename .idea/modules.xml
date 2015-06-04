@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/mcp-bank.iml" filepath="$PROJECT_DIR$/mcp-bank.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mcp.iml" filepath="$PROJECT_DIR$/mcp.iml" />
     </modules>
   </component>
 </project>

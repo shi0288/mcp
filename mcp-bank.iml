@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module external.linked.project.id="mcp-bank" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$" external.system.id="GRADLE" external.system.module.group="com.mcp" external.system.module.version="0.0.1-SNAPSHOT" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="Spring" name="Spring">
+      <configuration>
+        <fileset id="fileset" name="Spring Application Context" removed="false">
+          <file>file://$MODULE_DIR$/src/main/resources/applicationContext-mvc.xml</file>
+        </fileset>
+      </configuration>
+    </facet>
+  </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/build/classes/main" />
     <output-test url="file://$MODULE_DIR$/build/classes/test" />
@@ -464,5 +473,9 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="spring-aop-3.2.4.RELEASE" level="project" />
+    <orderEntry type="library" name="spring-aspects-3.2.4.RELEASE" level="project" />
+    <orderEntry type="library" name="xstream-1.4.3" level="project" />
+    <orderEntry type="library" name="org.apache.felix.webconsole-1.0.0" level="project" />
   </component>
 </module>

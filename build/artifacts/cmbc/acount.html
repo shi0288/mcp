@@ -39,8 +39,17 @@
                 success: function (result) {
                     var repCode = result.repCode;
                     if (repCode == '0000') {
-                        sessionStorage.setItem("recharge", result.acount.recharge);
-                        //sessionStorage.setItem("prize", result.acount.prize);
+                        if(result.acount==undefined){
+                            sessionStorage.setItem("recharge", 0);
+                            sessionStorage.setItem("prize", 0);
+                        }else{
+                            sessionStorage.setItem("recharge", result.acount.recharge);
+                            if(result.acount.prize==undefined){
+                                sessionStorage.setItem("prize", 0);
+                            }else{
+                                sessionStorage.setItem("prize", result.acount.prize);
+                            }
+                        }
                         var name = sessionStorage.getItem("name");
                         var recharge = sessionStorage.getItem("recharge");
                         var prize = sessionStorage.getItem("prize");

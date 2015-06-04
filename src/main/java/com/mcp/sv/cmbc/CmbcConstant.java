@@ -18,6 +18,8 @@ public class CmbcConstant {
     public static final String MCP_CQ01="CQ01";  //查询期次
     public static final String MCP_CT03="CT03";  //普通投注
 
+    public static final String MCP_CQ22="CQ22";  //查询
+
     //执行状态
     public static final String ERROR="9999";
     public static final String SUCCESS="0000";
@@ -31,6 +33,22 @@ public class CmbcConstant {
     public static final int ORDER_3000=3000;  //已支付
     public static final int ORDER_4000=4000;  //出票成功
 
+
+    //竞彩获取数据url
+    public static  final String SPF_URL = "http://i.sporttery.cn/odds_calculator/get_odds?i_format=json&poolcode%5B%5D=hhad&poolcode%5B%5D=had";
+    public static  final String BF_URL = "http://i.sporttery.cn/odds_calculator/get_odds?i_format=json&poolcode%5B%5D=crs";
+    public static  final String ZJQS_URL = "http://i.sporttery.cn/odds_calculator/get_odds?i_format=json&poolcode%5B%5D=ttg";
+    public static  final String BQCSPF_URL = "http://i.sporttery.cn/odds_calculator/get_odds?i_format=json&poolcode%5B%5D=hafu";
+    public static  final String HHGG_URL = "http://info.sporttery.cn/interface/interface_mixed.php?action=fb_list&pke=0.8295743858907372";
+    //"http://i.sporttery.cn/odds_calculator/get_odds?i_format=json&poolcode%5B%5D=hafu";
+
+
+    //
+    public static  final String SPF = "SPF";
+    public static  final String BF = "BF";
+    public static  final String ZJQS = "ZJQS";
+    public static  final String BQCSPF = "BQCSPF";
+    public static  final String HHGG = "HHGG";
 
 
 }

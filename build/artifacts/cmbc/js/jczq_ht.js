@@ -196,22 +196,42 @@ $(document).ready(function() {
 	});	
 });
 function seleMatch(evel){
+	if($(evel).parents("table").siblings().find(".on").length>1){
+		alert('一场比赛只能选择一种玩法');
+	}else{
 		if($(evel).hasClass("on")){
 			$(evel).removeClass("on");
 			if($(evel).parents("table").find(".on").length<1){
-				$(evel).parents("table").removeClass("on");		
+				$(evel).parents("table").removeClass("on");
+				$(evel).parents("table").parent("div").attr("num","close");
 			}
 		}else{
-			$(evel).addClass("on");	
-			$(evel).parents("table").addClass("on");	
+			$(evel).addClass("on");
+			$(evel).parents("table").addClass("on");
+			$(evel).parents("table").parent("div").attr("num","open");
 		}
 		var cs=getChangshu();
 		if(cs>=2){
 			$("#jc-cs").html("您选择了"+cs+"场比赛");
 		}else{
-			$("#jc-cs").html("至少选2场比赛");	
+			$("#jc-cs").html("至少选2场比赛");
 		}
 	}
+}
+//显示和隐藏
+function selOpenClose1(evel){
+	var id = "#"+evel;
+		$(id).click(function(){
+			alert("ok");
+			$("#table").css("display","block");
+			alert("ok1111111");
+		});
+}
+function selOpenClose2(evel){
+	var tab=document.getElementById(evel);
+	tab.style.display="block";
+}
+
 //最多可以设胆的数量
 function maxDan(){
 	var srr=[];
@@ -229,56 +249,37 @@ function maxDan(){
 	return len;
 }
 //列出选择列表
+
 function jcList(){
-	$(".jc-table.on").each(function(index) {
-		var cc=$(this).attr("data-cc");
-		var sfc=$(this).find(".jc-table-b[data-wf=spf]").eq(0);
-		var rf=$(this).find(".jc-table-b[data-wf=rf]").eq(0);
-		if($("#id_"+cc).length<1){
-			var html='<div class="jc-list-item" id="id_'+cc+'" data-cc="'+cc+'">'+
-						'<div class="jc-list-item-close"></div>'+
-						'<div class="jc-list-item-dan"></div>'+
-						'<div class="jc-list-item-cot clearfix">'+
-							'<div class="jc-list-item-ss">'+$(this).attr("data-des")+'</div>'+
-							'<div class="spf jc-list-xxx" data-wf="spf">'+
-								'<span class="jc-list-item-dw"></span><span class="jc-list-item-dw"></span><span class="jc-list-item-dw"></span>'+
-							'</div>'+
-							'<div class="cb"></div>'+
-							'<div class="rf jc-list-xxx" data-wf="rf">'+
-								'<span class="jc-list-item-dw"></span><span class="jc-list-item-dw"></span><span class="jc-list-item-dw"></span>'+
-							'</div>'+
-						'</div>'+
-					'</div>';	
-			$(".jc-list").eq(0).append(html);
-		}else{
-			var htmls='<div class="jc-list-item-ss">'+$(this).attr("data-des")+'</div>'+
-							'<div class="spf jc-list-xxx" data-wf="spf">'+
-								'<span class="jc-list-item-dw"></span><span class="jc-list-item-dw"></span><span class="jc-list-item-dw"></span>'+
-							'</div>'+
-							'<div class="cb"></div>'+
-							'<div class="rf jc-list-xxx" data-wf="rf">'+
-								'<span class="jc-list-item-dw"></span><span class="jc-list-item-dw"></span><span class="jc-list-item-dw"></span>'+
-							'</div>';
-			$("#id_"+cc).find(".jc-list-item-cot").eq(0).html(htmls);	
-		}
-	    if(sfc.find(".on").length>0){
-			sfc.find(".on").each(function(aa){
-				var datadit=$(this).attr("data-dit");
-				$("#id_"+cc).find(".spf").eq(0).find(".jc-list-item-dw").eq(aa).addClass("on");
-				$("#id_"+cc).find(".spf").eq(0).find(".jc-list-item-dw").eq(aa).html($(this).html());
-				$("#id_"+cc).find(".spf").eq(0).find(".jc-list-item-dw").eq(aa).attr("data-dit",datadit);
+	//为了防止页面元素一直增加，每次调用这个方法的时候先清空元素
+	$(".jc-list").eq(0).empty();
+	var htmldiv = "";
+	$("[num='open']").each(function(index) {
+		//var div_open = $(".jc-tz-item[num='open']").eq(0);
+		//console.log("ddddd:"+div_open);
+		var table_on = $(this).find(".jc-table.on");
+		var cc = table_on.attr("data-cc");
+		var name = table_on.attr("data-des");
+		htmldiv = htmldiv + '<div class="jc-list-item" id="id_'+cc+'" data-cc="'+cc+'">'+
+		'<div class="jc-list-item-close"></div>'+
+		'<div class="jc-list-item-dan"></div>'+
+		'<div class="jc-list-item-cot clearfix">' +
+		'<div class="jc-list-item-ss">'+name+'</div>';
+		$(this).find(".jc-table.on").each(function(index) {
+			htmldiv = htmldiv + '<div class="ht jc-list-xxx" data-wf="ht">';
+			$(this).find("td.on").each(function(aa){
+				var result = $(this).html();
+				htmldiv = htmldiv + '<span class="jc-list-item-dw on">'+ result +'</span>';
 			});
-		}
-		if(rf.find(".on").length>0){
-			rf.find(".on").each(function(aa){
-				var datadit=$(this).attr("data-dit");
-				$("#id_"+cc).find(".rf").eq(0).find(".jc-list-item-dw").eq(aa).addClass("on");
-				$("#id_"+cc).find(".rf").eq(0).find(".jc-list-item-dw").eq(aa).html($(this).html());
-				$("#id_"+cc).find(".rf").eq(0).find(".jc-list-item-dw").eq(aa).attr("data-dit",datadit);
-			});
-		}
-    });	
+			htmldiv = htmldiv + '</div>';
+		});
+		htmldiv = htmldiv +'</div>'+ '</div>';
+	});
+	//$("#jc-list-clearfix").append(htmldiv);
+	$(".jc-list").eq(0).append(htmldiv);
+
 }
+
 //更新选串信息
 function chuanChange(){
 	var changs=$(".jc-list-item-cot").length;
@@ -333,7 +334,7 @@ function chuanList(){
 }
 //获取选择的场数
 function getChangshu(){
-	var cs=$("table.on").length;
+	var cs= $("[num='open']").length ;
 	return cs;
 }
 //显示第一步
@@ -401,7 +402,7 @@ function jcSum(){
 				arrtuo.push(sarrtuo);
 			}
         });
-		evzhu=hunSumAll(arrdan,arrtuo,arr,chuan);
+		evzhu=sumAll(arrdan,arrtuo,arr,chuan);
 		sumzhu+=evzhu;
 	}
 	$("#zhushu").html(sumzhu);

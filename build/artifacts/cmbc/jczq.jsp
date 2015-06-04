@@ -87,7 +87,7 @@
 <!-- 弹出层开始-->
 <div class="cover"></div>
 <div class="mt-fix" id="jc-gg-pop">
-    	<a href="jczq.jsp">胜平负</a><a href="jczq_rf.jsp">让球胜平负</a><!--<a href="jczq_ht.html">混合过关</a>-->
+    	<a href="jczq.jsp">胜平负</a><a href="jczq_rf.jsp">让球胜平负</a><a href="jczq_bf.jsp">比分</a><a href="jczq_zjqs.jsp">总进球数</a><a href="jczq_bqc.jsp">半全场胜平负</a><a href="jczq_ht.jsp">混合过关</a>
         <div class="cb"></div>
 </div>
 <div class="mmt-fix" id="jc-ss-pop">

@@ -60,7 +60,7 @@ function hunSum(dan,tuo,arr,type){
 	var allsum=0;
 	for(var i=0;i<chuangzz.length-1;i++){
 		var thisarr=chuangzz[i];//第一次拆分之后每个组合
-		alert(thisarr.length);
+		//alert(thisarr.length);
 		for(var j=0;j<chuan.length;j++){
 			if(chuan.charAt(j)=="1"){
 				var tarr=getZh(thisarr,j+1);

@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * 
- * @author liujimin
+ * @author chenpeng
  * @version 1.0
  * Json 字符串生成工具类
  * <P>

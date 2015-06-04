@@ -1,11 +1,17 @@
 package com.mcp.sv.cmbc;
 
 
+import com.mcp.sv.dao.JcDao;
+import com.mcp.sv.model.OldBean;
 import com.mcp.sv.util.*;
+import org.apache.log4j.Logger;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import javax.ws.rs.*;
 
 /**
@@ -14,20 +20,25 @@ import javax.ws.rs.*;
  * @author Administrator
  */
 
-@Path("LotteryService")
+@Controller
+@RequestMapping(value = "bankServices/LotteryService")
 public class LotteryService {
 
-    private static final Logger logger = LoggerFactory.getLogger(LotteryService.class);
-
+    private static Logger logger = Logger.getLogger(LotteryService.class);
     private static RedisCilent redisCilent = new RedisCilent();
 
     public LotteryService() {
     }
 
-    @POST
-    @Produces({"application/json"})
-    @Path("commonTrans")
-    public String commonTrans( @FormParam("body") String body, @FormParam("payType") String payType,@FormParam("amount") int amount, @FormParam("outerId") String outerId,@FormParam("userName") String userName, @FormParam("passWord") String passWord) {
+   @RequestMapping(value = "commonTrans", method = RequestMethod.POST)
+   @ResponseBody
+    public String commonTrans(OldBean oldBean) {
+        String userName = oldBean.getUserName();
+        String passWord = oldBean.getPassWord();
+        String outerId = oldBean.getUserName();
+        String body = oldBean.getBody();
+        int amount = oldBean.getAmount();
+
         String resMessage = "";
         //判断用户权限
         int recharge=0;
@@ -108,10 +119,10 @@ public class LotteryService {
      * 获取期次信息
      *
      */
-    @POST
-    @Produces({"application/json"})
-    @Path("getTerms")
-    public String getTerms(@FormParam("body") String body) {
+    @RequestMapping(value = "getTerms", method = RequestMethod.POST)
+    @ResponseBody
+    public String getTerms(OldBean oldBean) {
+        String body = oldBean.getBody();
         String resMessage = "";
         //取期次
         System.out.println(body);
@@ -127,13 +138,40 @@ public class LotteryService {
     }
 
     /**
+     * 获取竞彩期次信息
+     *
+     */
+    @RequestMapping(value = "getJcInfo", method = RequestMethod.POST)
+    @ResponseBody
+    public String getJcInfo(OldBean oldBean) {
+        String resMessage = "";
+        String body = "";
+        String head = oldBean.getHead();
+        //取期次
+        logger.error(head);
+        System.out.println(head);
+        if(head != null){
+            try {
+                resMessage = JcDao.getFormat(head, body);
+                System.out.println("收到的竞彩信息：  " + resMessage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return resMessage;
+    }
+
+
+    /**
      * 用户注册
      *
      */
-    @POST
-    @Produces({"application/json"})
-    @Path("register")
-    public String register(@FormParam("userName") String username, @FormParam("passWord") String passWord, @FormParam("rePassWord") String rePassWord) {
+    @RequestMapping(value = "register", method = RequestMethod.POST)
+    @ResponseBody
+    public String register(OldBean oldBean) {
+        String username = oldBean.getUserName();
+        String passWord = oldBean.getPassWord();
+        String rePassWord = oldBean.getRePassWord();
         String description=LotteryDao.register(username, passWord, rePassWord);
         return toResult(description);
     }
@@ -142,10 +180,11 @@ public class LotteryService {
      * 用户登陆
      *
      */
-    @POST
-    @Produces({"application/json"})
-    @Path("login")
-    public String login(@FormParam("userName") String username, @FormParam("passWord") String passWord) {
+    @RequestMapping(value = "login", method = RequestMethod.POST)
+    @ResponseBody
+    public String login(OldBean oldBean) {
+        String username = oldBean.getUserName();
+        String passWord = oldBean.getPassWord();
         String description = LotteryDao.login(username, passWord);
         return toResult(description);
     }
@@ -154,12 +193,12 @@ public class LotteryService {
      * 用户充值
      *
      */
-    @POST
-    @Produces({"application/json"})
-    @Path("recharge")
-    public String recharge(@FormParam("userName") String username, @FormParam("money") String money) {
-        int recharge=Integer.parseInt(money);
-        String description = LotteryDao.recharge(username, recharge);
+    @RequestMapping(value = "recharge", method = RequestMethod.POST)
+    @ResponseBody
+    public String recharge(OldBean oldBean) {
+        int money = oldBean.getMoney();
+        String username = oldBean.getUserName();
+        String description = LotteryDao.recharge(username, money);
         return toResult(description);
     }
 
@@ -167,10 +206,12 @@ public class LotteryService {
      * 用户信息
      *
      */
-    @POST
-    @Produces({"application/json"})
-    @Path("getUser")
-    public String getUser(@FormParam("userName") String username,@FormParam("passWord") String passWord) {
+    @RequestMapping(value = "getUser", method = RequestMethod.POST)
+    @ResponseBody
+    public String getUser(OldBean oldBean) {
+        String username = oldBean.getUserName();
+        String passWord = oldBean.getPassWord();
+
         String description = null;
         try {
             description = LotteryDao.getUser(username, passWord);
@@ -184,10 +225,15 @@ public class LotteryService {
      * 订单信息
      *
      */
-    @POST
-    @Produces({"application/json"})
-    @Path("getOrder")
-    public String getOrder(@FormParam("userName") String username,@FormParam("passWord") String passWord,@FormParam("outerId") String outerId,@FormParam("curPage") int curPage,@FormParam("pageSize") int pageSize) {
+    @RequestMapping(value = "getOrder", method = RequestMethod.POST)
+    @ResponseBody
+    public String getOrder(OldBean oldBean) {
+        String username = oldBean.getUserName();
+        int  curPage = oldBean.getCurPage();
+        String passWord = oldBean.getPassWord();
+        int pageSize = oldBean.getPageSize();
+        String outerId = oldBean.getOuterId();
+
         String description = null;
         try {
             description = LotteryDao.getOrder(username, passWord, curPage, pageSize, outerId);
@@ -202,10 +248,15 @@ public class LotteryService {
      * 日志信息
      *
      */
-    @POST
-    @Produces({"application/json"})
-    @Path("getLogs")
-    public String getLogs(@FormParam("userName") String userName,@FormParam("passWord") String passWord,@FormParam("accountType") int accountType,@FormParam("curPage") int curPage,@FormParam("pageSize") int pageSize) {
+    @RequestMapping(value = "getLogs", method = RequestMethod.POST)
+    @ResponseBody
+    public String getLogs(OldBean oldBean) {
+        String userName = oldBean.getUserName();
+        String passWord = oldBean.getPassWord();
+        int curPage = oldBean.getCurPage();
+        int pageSize = oldBean.getPageSize();
+        int accountType = oldBean.getAccountType();
+
         String description = null;
         try {
             description = LotteryDao.getLogs(userName, passWord,curPage,pageSize,accountType);

@@ -14,7 +14,9 @@ public class MongoConst {
     public static final String MONGO_USERS="users";
     public static final String MONGO_ACOUNT="acount";
     public static final String MONGO_TORDER="torder";
+    public static final String MONGO_WEIXINCONF="weixinconf";
     public static final String MONGO_RECHARGE_LOG="rechargeLog";
+    public static final String MONGO_USERS_ADDRESS="address";
 
 
 

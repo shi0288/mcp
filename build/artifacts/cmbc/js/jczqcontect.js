@@ -115,7 +115,8 @@ function setAndroidWebitEvent(param, evtCode) {
 $(document).ready(function () {
     var thisUrl = window.location.href;
     getJcData();//获取竞彩数据
-    getUserData();
+    //getJcDatatest();
+   // getUserData();
     //筛选联赛
     $("#jc-ls-ok").click(function () {
         var arrJcl = [];
@@ -285,57 +286,85 @@ function getJcNums() {
     arrNum = arrNum.join(";");
     return arrNum;
 }
+function getJcDatatest() {
+    $.ajax({
+        type: "POST",
+        url: "http://i.sporttery.cn/odds_calculator/get_odds?i_format=json&i_callback=getData&poolcode[]=hhad&poolcode[]=had&_=1432622491830",
+        dataType: "json",
+        cache: false,
+        success: function (result) {
+            alert(result);
+        },
+        error: onError
+    });
+
+}
 //获取竞彩数据
 function getJcData() {
-	
 	var pathName= window.location.pathname;
 	console.log(pathName);
 	var st=1;
 	if('/cmbc/jczq.jsp'==pathName){
 		st=2;
 	}
+    //if('/cmbc/jczq_rf.jsp'==pathName){
+    //    st=2;
+    //}
+    if('/cmbc/jczq_zjqs.jsp'==pathName){
+        st="ZJQS";
+    }
+    if('/cmbc/jczq_bqc.jsp'==pathName){
+        st="BQCSPF";
+    }
+    if('/cmbc/jczq_bf.jsp'==pathName){
+        st="BF";
+    }
+
+    var head = {
+        "st":st
+    };
     var body = {
-        'cond': {"gameCode": 'T51',
-            "status":1200},
-        'sort':{},
-        'skip':0,
-        'limit':20
+        "gameCode":"T51",
+        "pType":"05",
+        "passType":"1"
     };
     $.ajax({
         type: "POST",
-        url: "/bankServices/LotteryService/commonTrans?timestamp=" + new Date().getTime(),
+        //url: "/bankServices/LotteryService/getInfo?timestamp=" + new Date().getTime(),
+        url: "/bankServices/LotteryService/getJcInfo?timestamp=" + new Date().getTime(),
         dataType: "json",
         cache: false,
         data: {
-            cmd: 'CQ01',
+            head: JSON.stringify(head),
             body: JSON.stringify(body)
         },
         success: function (result) {
-			console.log(result);
-            var repCode = result.repCode;
-			console.log(result);
+            after();
+            var repCode = result.head.repCode;
             if (repCode == '0000') {
-                getMatch(result['rst'],st);
+                var obj = eval(result.body);
+                //alert(obj[0].matchInfo[0]._id);
+                getMatchInfo(obj,st);
             } else {
-                alert(result.description);
+                after();
+                alert(result.head.repCode);
             }
         },
         error: onError
     });
 }
-function getMatch(obj,st) {
+function getMatchInfo(obj,st){
     var Screen = [];//场次
     var arrls = [];//联赛
-    //获取场次和联赛名
     $.each(obj, function (key, item) {
-		console.log(item);
-        var code = item['code'];
+        //console.log(item);
+        var code = item.code;
         code = code.substring(0, 8);
         Screen.push(code);
-        var liansai = item['matchInfo'];
-		$.each(liansai, function (index, match) {
-			arrls.push(match.matchName);
-		});
+        var liansai = item.matchInfo;
+        $.each(liansai, function (index, match) {
+            arrls.push(match.matchName);
+        });
     });
     //联赛去重
     arrls = unique(arrls);
@@ -343,6 +372,7 @@ function getMatch(obj,st) {
         var lsHtml = '<span class="on" onclick="toogle(this)">' + val + '</span>';
         $("#jc-liansai").append(lsHtml);
     });
+    //type(st);
     //场次去重
     var arrcounti = {};
     Screen = unique(Screen);
@@ -364,76 +394,224 @@ function getMatch(obj,st) {
     });
     //获取每场比赛
     $.each(obj, function (key, item) {
-        var code = item['code'];
+        var code = item.code;
         code = code.substring(0, 8);
         arrcounti[code] += 1;
         var changci = formNumber(arrcounti[code]);
-        var teamname = item['matchInfo'];
-		var matchTime = item['closeTime'];
+        var teamname = item.matchInfo;
+        var matchTime = item.closeTime;
         matchTime = matchTime.substring(0, 10);
-		console.log(matchTime);
-		$.each(teamname, function (index, match) {
-			var matchName=match.matchName;
-			matchName = matchName.split("|");
-			var oodsCode = match['oddsCode'];
-			var oodsTag;
-		
+        console.log(matchTime);
+        $.each(teamname, function (index, match) {
+            var matchName=match.matchName;
+            matchName = matchName.split("|");
+            var oodsCode = match.oddsCode;
+            var oodsTag;
 
-		if(st==1){
-			if(oodsCode=='cn02'){
-				return;
-			}	
-		}else{
-			if(oodsCode=='cn01'){
-				return;
-			}	
-			
-		}
-		
-		if(oodsCode=='cn01'){
-			   var rqspfdata = match.oddsInfo;
-               if (rqspfdata) {
-               rqspfdata = rqspfdata.split("|");
-            var rqspfdata_one = '<td data-dit="v3" onclick="seleMatch(this)">胜' + rqspfdata[0] + '</td>';
-           var rqspfdata_two = '<td data-dit="v1" onclick="seleMatch(this)">平' + rqspfdata[1] + '</td>';
-            var rqspfdata_three = '<td data-dit="v0" onclick="seleMatch(this)">负' + rqspfdata[2] + '</td>';
-			oodsTag='<tr data-wf="rf" class="jc-table-b rf-dd">' + rqspfdata_one + rqspfdata_two + rqspfdata_three + '</tr>'
-       } else {
-            var rqspfdata_one = '<td class="false" data-dit="v3">胜--</td>';
-            var rqspfdata_two = '<td class="false" data-dit="v1">平--</td>';
-            var rqspfdata_three = '<td class="false" data-dit="v0">负--</td>';
-        }	
-		}else if(oodsCode=='cn02'){
-			  var spfdata = match.oddsInfo;
-		if (spfdata) {
-            spfdata = spfdata.split("|");
-            var spfdata_one = '<td data-dit="v3" onclick="seleMatch(this)">胜' + spfdata[0] + '</td>';
-            var spfdata_two = '<td data-dit="v1" onclick="seleMatch(this)">平' + spfdata[1] + '</td>';
-            var spfdata_three = '<td data-dit="v0" onclick="seleMatch(this)">负' + spfdata[2] + '</td>';
-			oodsTag='<tr data-wf="spf" class="jc-table-b spf-dd">' + spfdata_one + spfdata_two + spfdata_three + '</tr>' ;
-        } else {
-            var spfdata_one = '<td class="false" data-dit="v3">胜--</td>';
-            var spfdata_two = '<td class="false" data-dit="v1">平--</td>';
-            var spfdata_three = '<td class="false" data-dit="v0">负--</td>';
-        }
-}
-		  var changciHtml =
-            '<table width="100%" data-des="' + matchName[0] + '&nbsp;&nbsp;VS&nbsp;&nbsp;' + matchName[1] + '" data-cc="' + item.code + '" class="jc-table">' +
-                '<tbody><tr class="jc-table-tbb">' +
-                '<td width="28%" class="jc-table-rb" rowspan="3"><p>' + changci + '</p><p class="lsname">' + matchName[2] + '</p><p class="time"><img src="img/sclock.png">' + matchTime + '</p></td>' +
-                '<td width="72%" colspan="3"><span class="teamname">' + matchName[0] + '</span>V S<span class="teamname">' + matchName[1] + '</span></td>' +
-                '</tr>' +
-                oodsTag +
-                '</tbody>' +
-                '</table>';
-        $("#s_" + code).append(changciHtml);
-		});
+
+            if(st==1){
+                if(oodsCode=='cn02'){
+                    return;
+                }
+            }else{
+                if(oodsCode=='cn01'){
+                    return;
+                }
+
+            }
+            var changciHtml = "";
+            console.log("oodsCode:"+oodsCode);
+            if(oodsCode=='cn01'){
+                var rqspfdata = match.oddsInfo;
+                if (rqspfdata) {
+                    rqspfdata = rqspfdata.split("|");
+                    var rqspfdata_one,rqspfdata_two,rqspfdata_two
+                    if(rqspfdata[0]=='--'){
+                        rqspfdata_one = '<td width="24%" class="false" data-dit="v3" >胜' + rqspfdata[0] + '</td>';
+                        rqspfdata_two = '<td width="24%" class="false" data-dit="v1" >平' + rqspfdata[1] + '</td>';
+                        rqspfdata_two = '<td width="24%" class="false" data-dit="v0" >负' + rqspfdata[2] + '</td>';
+                    }else{
+                        rqspfdata_one = '<td width="24%" data-dit="v3" onclick="seleMatch(this)">胜' + rqspfdata[0] + '</td>';
+                        rqspfdata_two = '<td width="24%" data-dit="v1" onclick="seleMatch(this)">平' + rqspfdata[1] + '</td>';
+                        rqspfdata_three = '<td width="24%" data-dit="v0" onclick="seleMatch(this)">负' + rqspfdata[2] + '</td>';
+                    }
+                } else {
+                        rqspfdata_one = '<td width="24%" class="false" data-dit="v3">胜--</td>';
+                        rqspfdata_two = '<td width="24%" class="false" data-dit="v1">平--</td>';
+                        rqspfdata_three = '<td width="24%" class="false" data-dit="v0">负--</td>';
+                }
+                oodsTag='<tr data-wf="rf" class="jc-table-b rf-dd">' + rqspfdata_one + rqspfdata_two + rqspfdata_three + '</tr>'
+                changciHtml =
+                    '<table width="100%" data-des="' + matchName[0] + '&nbsp;&nbsp;VS&nbsp;&nbsp;' + matchName[1] + '" data-cc="' + item.code + '" class="jc-table">' +
+                    '<tbody><tr class="jc-table-tbb">' +
+                    '<td width="28%" class="jc-table-rb" rowspan="3"><p>' + changci + '</p><p class="lsname">' + matchName[2] + '</p><p class="time"><img src="img/sclock.png">' + matchTime + '</p></td>' +
+                    '<td width="72%" colspan="3"><span class="teamname">' + matchName[0] + '</span>V S<span class="teamname">' + matchName[1] + '</span></td>' +
+                    '</tr>' +
+                    oodsTag +
+                    '</tbody>' +
+                    '</table>';
+            }else if(oodsCode=='cn02'){
+                var spfdata = match.oddsInfo;
+                if (spfdata) {
+                    spfdata = spfdata.split("|");
+                    var spfdata_one,spfdata_two,spfdata_three;
+                    if( spfdata[0]=='--'){
+                        spfdata_one = '<td width="24%" class="false" data-dit="v3">胜' + spfdata[0] + '</td>';
+                        spfdata_two = '<td width="24%" class="false"  data-dit="v1">平' + spfdata[1] + '</td>';
+                        spfdata_three = '<td width="24%" class="false" data-dit="v0">负' + spfdata[2] + '</td>';
+                    }else{
+                        spfdata_one = '<td width="24%" data-dit="v3" onclick="seleMatch(this)">胜' + spfdata[0] + '</td>';
+                        spfdata_two = '<td width="24%" data-dit="v1" onclick="seleMatch(this)">平' + spfdata[1] + '</td>';
+                        spfdata_three = '<td width="24%" data-dit="v0" onclick="seleMatch(this)">负' + spfdata[2] + '</td>';
+                    }
+                } else {
+                        spfdata_one = '<td width="24%" class="false" data-dit="v3">胜--</td>';
+                        spfdata_two = '<td width="24%" class="false" data-dit="v1">平--</td>';
+                        spfdata_three = '<td width="24%" class="false" data-dit="v0">负--</td>';
+                }
+                oodsTag='<tr data-wf="spf" class="jc-table-b spf-dd">' + spfdata_one + spfdata_two + spfdata_three + '</tr>' ;
+                changciHtml =
+                    '<table width="100%" data-des="' + matchName[0] + '&nbsp;&nbsp;VS&nbsp;&nbsp;' + matchName[1] + '" data-cc="' + item.code + '" class="jc-table">' +
+                    '<tbody><tr class="jc-table-tbb">' +
+                    '<td width="28%" class="jc-table-rb" rowspan="3"><p>' + changci + '</p><p class="lsname">' + matchName[2] + '</p><p class="time"><img src="img/sclock.png">' + matchTime + '</p></td>' +
+                    '<td width="72%" colspan="3"><span class="teamname">' + matchName[0] + '</span>V S<span class="teamname">' + matchName[1] + '</span></td>' +
+                    '</tr>' +
+                    oodsTag +
+                    '</tbody>' +
+                    '</table>';
+            }else if(st=='BF'){//比分
+                var spfdata = match.oddsInfo;
+                if (spfdata) {
+                    spfdata = spfdata.split("|");
+                    var spfdata_zero = '<td data-dit="v01" width="5.14%" >胜</td>';
+                    var spfdata_one = '<td data-dit="v02" width="5.1%" onclick="seleMatch(this)">' + spfdata[0] + '</td>';
+                    var spfdata_two = '<td data-dit="v03" width="5.1%" onclick="seleMatch(this)">' + spfdata[1] + '</td>';
+                    var spfdata_three = '<td data-dit="v04" width="5.1%" onclick="seleMatch(this)">' + spfdata[2] + '</td>';
+                    var spfdata_four = '<td data-dit="v05" width="5.1%" onclick="seleMatch(this)">' + spfdata[3] + '</td>';
+                    var spfdata_five = '<td data-dit="v06" width="5.1%" onclick="seleMatch(this)">' + spfdata[4] + '</td>';
+                    var spfdata_six = '<td data-dit="v07" width="5.1%" onclick="seleMatch(this)">' + spfdata[5] + '</td>';
+                    var spfdata_seven = '<td data-dit="v08" width="5.1%" onclick="seleMatch(this)">' + spfdata[6] + '</td>';
+                    var spfdata_eight = '<td data-dit="v09" width="5.1%" onclick="seleMatch(this)">' + spfdata[7] + '</td>';
+                    var spfdata_nine = '<td data-dit="v010" width="5.1%" onclick="seleMatch(this)">' + spfdata[8] + '</td>';
+                    var spfdata_ten = '<td data-dit="v011" width="5.1%" onclick="seleMatch(this)">' + spfdata[9] + '</td>';
+                    var spfdata_eleven = '<td data-dit="v012" width="5.1%" onclick="seleMatch(this)">' + spfdata[10] + '</td>';
+                    var spfdata_twelve = '<td data-dit="v013" width="5.1%" onclick="seleMatch(this)">' + spfdata[11] + '</td>';
+                    var spfdata_thirteen = '<td data-dit="v014" width="5.1%" onclick="seleMatch(this)">' + spfdata[12] + '</td>';
+
+
+
+                    oodsTag='<tr data-wf="spf" class="jc-table-b spf-dd">' + spfdata_zero + spfdata_one + spfdata_two + spfdata_three + spfdata_four + spfdata_five + spfdata_six + spfdata_seven + spfdata_eight + spfdata_nine + spfdata_ten + spfdata_eleven + spfdata_twelve + spfdata_thirteen +'</tr>' ;
+                    var spfdata_zero2 = '<td data-dit="v11" width="5.14%" >平</td>';
+                    var spfdata_one2 = '<td data-dit="v12" width="5.1%" onclick="seleMatch(this)">' + spfdata[13] + '</td>';
+                    var spfdata_two2 = '<td data-dit="v13" width="5.1%" onclick="seleMatch(this)">' + spfdata[14] + '</td>';
+                    var spfdata_three2 = '<td data-dit="v14" width="5.1%" onclick="seleMatch(this)">' + spfdata[15] + '</td>';
+                    var spfdata_four2 = '<td data-dit="v15" width="5.1%" onclick="seleMatch(this)">' + spfdata[16] + '</td>';
+                    var spfdata_five2 = '<td data-dit="v16" width="5.1%" onclick="seleMatch(this)">' + spfdata[17] + '</td>';
+
+                    var oddTag2 = '<tr data-wf="spf" class="jc-table-b spf-dd">'+spfdata_zero2 +spfdata_one2+spfdata_one2+spfdata_two2+spfdata_three2+spfdata_four2+spfdata_five2+'</tr>' ;
+
+                    var spfdata_zero3 = '<td data-dit="v21" width="5.14%" >负</td>';
+                    var spfdata_one3 = '<td data-dit="v22" width="5.1%" onclick="seleMatch(this)">' + spfdata[18] + '</td>';
+                    var spfdata_two3 = '<td data-dit="v23" width="5.1%" onclick="seleMatch(this)">' + spfdata[19] + '</td>';
+                    var spfdata_three3 = '<td data-dit="v24" width="5.1%" onclick="seleMatch(this)">' + spfdata[20] + '</td>';
+                    var spfdata_four3 = '<td data-dit="v25" width="5.1%" onclick="seleMatch(this)">' + spfdata[21] + '</td>';
+                    var spfdata_five3 = '<td data-dit="v26" width="5.1%" onclick="seleMatch(this)">' + spfdata[22] + '</td>';
+                    var spfdata_six3 = '<td data-dit="v27" width="5.1%" onclick="seleMatch(this)">' + spfdata[23] + '</td>';
+                    var spfdata_seven3 = '<td data-dit="v28" width="5.1%" onclick="seleMatch(this)">' + spfdata[24] + '</td>';
+                    var spfdata_eight3 = '<td data-dit="v29" width="5.1%" onclick="seleMatch(this)">' + spfdata[25] + '</td>';
+                    var spfdata_nine3 = '<td data-dit="v210" width="5.1%" onclick="seleMatch(this)">' + spfdata[26] + '</td>';
+                    var spfdata_ten3 = '<td data-dit="v211" width="5.1%" onclick="seleMatch(this)">' + spfdata[27] + '</td>';
+                    var spfdata_eleven3 = '<td data-dit="v212" width="5.1%" onclick="seleMatch(this)">' + spfdata[28] + '</td>';
+                    var spfdata_twelve3 = '<td data-dit="v213" width="5.1%" onclick="seleMatch(this)">' + spfdata[29] + '</td>';
+                    var spfdata_thirteen3 = '<td data-dit="v214" width="5.1%" onclick="seleMatch(this)">' + spfdata[30] + '</td>';
+
+                    var oddTag3 = '<tr data-wf="spf" class="jc-table-b spf-dd">' + spfdata_zero3 + spfdata_one3 + spfdata_two3 + spfdata_three3 + spfdata_four3 + spfdata_five3 + spfdata_six3 + spfdata_seven3 + spfdata_eight3 + spfdata_nine3 + spfdata_ten3 + spfdata_eleven3 + spfdata_twelve3 + spfdata_thirteen3 +'</tr>' ;
+
+                    oodsTag = oodsTag + oddTag2 + oddTag3;
+
+                } else {
+                    var spfdata_one = '<td class="false" data-dit="v3">胜--</td>';
+                    var spfdata_two = '<td class="false" data-dit="v1">平--</td>';
+                    var spfdata_three = '<td class="false" data-dit="v0">负--</td>';
+                }
+                changciHtml =
+                    '<table width="100%" data-des="' + matchName[0] + '&nbsp;&nbsp;VS&nbsp;&nbsp;' + matchName[1] + '" data-cc="' + item.code + '" class="jc-table">' +
+                    '<tbody><tr class="jc-table-tbb">' +
+                    '<td width="28%" class="jc-table-rb" rowspan="14"><p>' + changci + '</p><p class="lsname">' + matchName[2] + '</p><p class="time"><img src="img/sclock.png">' + matchTime + '</p></td>' +
+                    '<td width="72%" colspan="14"><span class="teamname">' + matchName[0] + '</span>V S<span class="teamname">' + matchName[1] + '</span></td>' +
+                    '</tr>' +
+                    oodsTag +
+                    '</tbody>' +
+                    '</table>';
+            }else if(st=='ZJQS'){//总进球数
+                var spfdata = match.oddsInfo;
+                if (spfdata) {
+                    spfdata = spfdata.split("|");
+                    var spfdata_one = '<td data-dit="v2" width="9%" onclick="seleMatch(this)">' + spfdata[0] + '</td>';
+                    var spfdata_two = '<td data-dit="v3" width="9%" onclick="seleMatch(this)">' + spfdata[1] + '</td>';
+                    var spfdata_three = '<td data-dit="v4" width="9%" onclick="seleMatch(this)">' + spfdata[2] + '</td>';
+                    var spfdata_four = '<td data-dit="v5" width="9%" onclick="seleMatch(this)">' + spfdata[3] + '</td>';
+                    var spfdata_five = '<td data-dit="v6" width="9%" onclick="seleMatch(this)">' + spfdata[4] + '</td>';
+                    var spfdata_six = '<td data-dit="v7" width="9%" onclick="seleMatch(this)">' + spfdata[5] + '</td>';
+                    var spfdata_seven = '<td data-dit="v8" width="9%" onclick="seleMatch(this)">' + spfdata[6] + '</td>';
+                    var spfdata_eight = '<td data-dit="v9" width="9%" onclick="seleMatch(this)">' + spfdata[7] + '</td>';
+
+                    oodsTag='<tr data-wf="spf" class="jc-table-b spf-dd">' + spfdata_one + spfdata_two + spfdata_three + spfdata_four + spfdata_five + spfdata_six + spfdata_seven + spfdata_eight + '</tr>' ;
+                } else {
+                    var spfdata_one = '<td class="false" data-dit="v3">胜--</td>';
+                    var spfdata_two = '<td class="false" data-dit="v1">平--</td>';
+                    var spfdata_three = '<td class="false" data-dit="v0">负--</td>';
+                }
+                changciHtml =
+                    '<table width="100%" data-des="' + matchName[0] + '&nbsp;&nbsp;VS&nbsp;&nbsp;' + matchName[1] + '" data-cc="' + item.code + '" class="jc-table">' +
+                    '<tbody><tr class="jc-table-tbb">' +
+                    '<td width="28%" class="jc-table-rb" rowspan="8"><p>' + changci + '</p><p class="lsname">' + matchName[2] + '</p><p class="time"><img src="img/sclock.png">' + matchTime + '</p></td>' +
+                    '<td width="72%" colspan="8"><span class="teamname">' + matchName[0] + '</span>V S<span class="teamname">' + matchName[1] + '</span></td>' +
+                    '</tr>' +
+                    oodsTag +
+                    '</tbody>' +
+                    '</table>';
+            }else if(st=='BQCSPF'){//半全场胜平负
+                var spfdata = match.oddsInfo;
+                if (spfdata) {
+                    spfdata = spfdata.split("|");
+                    var spfdata_one = '<td data-dit="v2" width="8%" onclick="seleMatch(this)">' + spfdata[0] + '</td>';
+                    var spfdata_two = '<td data-dit="v3" width="8%" onclick="seleMatch(this)">' + spfdata[1] + '</td>';
+                    var spfdata_three = '<td data-dit="v4" width="8%" onclick="seleMatch(this)">' + spfdata[2] + '</td>';
+                    var spfdata_four = '<td data-dit="v5" width="8%" onclick="seleMatch(this)">' + spfdata[3] + '</td>';
+                    var spfdata_five = '<td data-dit="v6" width="8%" onclick="seleMatch(this)">' + spfdata[4] + '</td>';
+                    var spfdata_six = '<td data-dit="v7" width="8%" onclick="seleMatch(this)">' + spfdata[5] + '</td>';
+                    var spfdata_seven = '<td data-dit="v8" width="8%" onclick="seleMatch(this)">' + spfdata[6] + '</td>';
+                    var spfdata_eight = '<td data-dit="v9" width="8%" onclick="seleMatch(this)">' + spfdata[7] + '</td>';
+                    var spfdata_nine = '<td data-dit="v10" width="8%" onclick="seleMatch(this)">' + spfdata[8] + '</td>';
+
+                    oodsTag='<tr data-wf="spf" class="jc-table-b spf-dd">' + spfdata_one + spfdata_two + spfdata_three + spfdata_four + spfdata_five + spfdata_six + spfdata_seven + spfdata_eight + spfdata_nine + '</tr>' ;
+                } else {
+                    var spfdata_one = '<td class="false" data-dit="v3">胜--</td>';
+                    var spfdata_two = '<td class="false" data-dit="v1">平--</td>';
+                    var spfdata_three = '<td class="false" data-dit="v0">负--</td>';
+                }
+                changciHtml =
+                    '<table width="100%" data-des="' + matchName[0] + '&nbsp;&nbsp;VS&nbsp;&nbsp;' + matchName[1] + '" data-cc="' + item.code + '" class="jc-table">' +
+                    '<tbody><tr class="jc-table-tbb">' +
+                    '<td width="28%" class="jc-table-rb" rowspan="9"><p>' + changci + '</p><p class="lsname">' + matchName[2] + '</p><p class="time"><img src="img/sclock.png">' + matchTime + '</p></td>' +
+                    '<td width="72%" colspan="9"><span class="teamname">' + matchName[0] + '</span>V S<span class="teamname">' + matchName[1] + '</span></td>' +
+                    '</tr>' +
+                    oodsTag +
+                    '</tbody>' +
+                    '</table>';
+            }
+
+            $("#s_" + code).append(changciHtml);
+        });
     });
     $(".jc-tz-item").each(function () {
         var screennum = $(this).find(".jc-table").length;
         $(this).find(".screen-num").html(screennum);
     });
 }
+//
+
 //生成3位字符串如022
 function formNumber(num) {
     if (num < 10) {
