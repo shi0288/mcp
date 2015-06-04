@@ -2,7 +2,9 @@ package com.mcp.sv.cmbc;
 
 import org.apache.http.Consts;
 import org.apache.http.Header;
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -12,7 +14,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.config.ConnectionConfig;
 import org.apache.http.config.MessageConstraints;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
@@ -100,6 +104,28 @@ public class HttpClientWrapper {
         return res;
     }
 
+    /**
+     * 提交json类型
+     * @param url
+     * @param jsonContent
+     * @return
+     */
+    public static String postJson(String url, String jsonContent){
+        HttpClient httpClient = getHttpClient();
+        HttpPost method = new HttpPost(url);
+        StringEntity entity = null;//解决中文乱码问题
+        String res = "";
+        try {
+            entity = new StringEntity(jsonContent, "UTF-8");
+            entity.setContentType("application/json");
+            method.setEntity(entity);
+            HttpResponse result = httpClient.execute(method);
+            res = EntityUtils.toString(result.getEntity());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
 
     public static String cmbcPost(String url, String key, String param) {
         HttpPost request = new HttpPost(url);
