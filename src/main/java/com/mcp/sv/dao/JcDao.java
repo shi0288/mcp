@@ -125,17 +125,17 @@ public class JcDao {
         return res;
     }
 
-    //×éÖ¯¾º²Ê±¨ÎÄ¸ñÊ½
+    //ç»„ç»‡ç«å½©æŠ¥æ–‡æ ¼å¼
     public static String createFormat( String type, String str) {
         String rbody = "";
-        JSONObject data = new JSONObject();                 //×éÖ¯ºÃµÄÊı¾İ
+        JSONObject data = new JSONObject();                 //ç»„ç»‡å¥½çš„æ•°æ®
         JSONObject head = new JSONObject();
-        JSONArray body = new JSONArray();                   //ĞèÒª×éÖ¯µÄÊı¾İ
+        JSONArray body = new JSONArray();                   //éœ€è¦ç»„ç»‡çš„æ•°æ®
         String endDate = "";
         try {
-            JSONObject mbody = new JSONObject(str);             //´«¹ıÀ´µÄÊı¾İ
-            String mdata = mbody.getString("data");             //×¥È¡µÃÊı¾İ
-            String status = mbody.getString("status");          //×îºó¸üĞÂÊ±¼ä
+            JSONObject mbody = new JSONObject(str);             //ä¼ è¿‡æ¥çš„æ•°æ®
+            String mdata = mbody.getString("data");             //æŠ“å–å¾—æ•°æ®
+            String status = mbody.getString("status");          //æœ€åæ›´æ–°æ—¶é—´
             JSONObject updated = new JSONObject(status);
             String last_updated = updated.getString("last_updated");
             endDate = last_updated;
@@ -150,7 +150,7 @@ public class JcDao {
                 JSONObject bodys_ = new JSONObject(value);
                 String gameCode = "T51";
                 String num = bodys_.getString("num");
-                String[] week = new String[]{ "ÖÜÒ»", "ÖÜ¶ş", "ÖÜÈı", "ÖÜËÄ", "ÖÜÎå", "ÖÜÁù","ÖÜÈÕ"};
+                String[] week = new String[]{ "å‘¨ä¸€", "å‘¨äºŒ", "å‘¨ä¸‰", "å‘¨å››", "å‘¨äº”", "å‘¨å…­","å‘¨æ—¥"};
                 String sweek = num.substring(0,2);
                 String  showing= num.substring(2,5);
                 for (int j = 0; j <week.length ; j++) {
@@ -182,13 +182,13 @@ public class JcDao {
                         oddsInfo1 = bodys_hhad.getString("h")+"|"+bodys_hhad.getString("d")+"|"+bodys_hhad.getString("a");
                         oddsSingle1 = bodys_hhad.getString("single");
                     }else{
-                        fixedodds1 = "Î´¿ªÊÛ";
+                        fixedodds1 = "æœªå¼€å”®";
                         oddsInfo1 = "--|--|--";
-                        oddsSingle1 = "Î´¿ªÊÛ";
+                        oddsSingle1 = "æœªå¼€å”®";
                     }
 
                     String oddsCode1 = "cn01";
-                    String oddsName1 = "ÈÃÇòÊ¤Æ½¸º";
+                    String oddsName1 = "è®©çƒèƒœå¹³è´Ÿ";
                     JSONObject bodys_hhad1 = new JSONObject();
                     bodys_hhad1.put("_id",_id+"_1");
                     bodys_hhad1.put("matchCode",matchCode);
@@ -214,12 +214,12 @@ public class JcDao {
                         oddsInfo2 = bodys_had.getString("h")+"|"+bodys_had.getString("d")+"|"+bodys_had.getString("a");
                         oddsSingle2 = bodys_had.getString("single");
                     }else{
-                        fixedodds2 = "Î´¿ªÊÛ";
+                        fixedodds2 = "æœªå¼€å”®";
                         oddsInfo2 = "--|--|--";
-                        oddsSingle2 = "Î´¿ªÊÛ";
+                        oddsSingle2 = "æœªå¼€å”®";
                     }
                     String oddsCode2 = "cn02";
-                    String oddsName2 = "Ê¤Æ½¸º";
+                    String oddsName2 = "èƒœå¹³è´Ÿ";
                     JSONObject bodys_had2 = new JSONObject();
                     bodys_had2.put("_id",_id+"_2");
                     bodys_had2.put("matchCode",matchCode);
@@ -299,7 +299,7 @@ public class JcDao {
                     bodys_bf.put("matchName",matchName+"|"+ fixedodds);
                     bodys_bf.put("oddsInfo",oddsInfo);
                     bodys_bf.put("oddsCode","BF");
-                    bodys_bf.put("oddsName","±È·Ö");
+                    bodys_bf.put("oddsName","æ¯”åˆ†");
                     bodys_bf.put("oddsSingle",oddsSingle);
 //
                     JSONArray matchInfo = new JSONArray();
@@ -342,7 +342,7 @@ public class JcDao {
                     bodys_zjqs.put("matchName",matchName+"|"+ fixedodds);
                     bodys_zjqs.put("oddsInfo",oddsInfo);
                     bodys_zjqs.put("oddsCode","ZJQS");
-                    bodys_zjqs.put("oddsName","×Ü½øÇòÊı");
+                    bodys_zjqs.put("oddsName","æ€»è¿›çƒæ•°");
                     bodys_zjqs.put("oddsSingle",oddsSingle);
 //
                     JSONArray matchInfo = new JSONArray();
@@ -380,7 +380,7 @@ public class JcDao {
                     String s = "|";
                     oddsInfo = oddsInfo.append(aa).append(s).append(ad).append(s).append(ah).append(s).append(da).append(s).append(dd)
                             .append(s).append(dh).append(s).append(ha).append(s).append(hd).append(s).append(hh);
-                    if(p_status.equals("Selling")){//ÅĞ¶ÏÊÇ·ñ¿ÉÊÛ
+                    if(p_status.equals("Selling")){//åˆ¤æ–­æ˜¯å¦å¯å”®
 
                         JSONObject bodys_bqc = new JSONObject();
                         bodys_bqc.put("_id",_id+"_1");
@@ -389,7 +389,7 @@ public class JcDao {
                         bodys_bqc.put("matchName",matchName+"|"+ fixedodds);
                         bodys_bqc.put("oddsInfo",oddsInfo);
                         bodys_bqc.put("oddsCode","BQCSPF");
-                        bodys_bqc.put("oddsName","°ëÈ«³¡Ê¤Æ½¸º");
+                        bodys_bqc.put("oddsName","åŠå…¨åœºèƒœå¹³è´Ÿ");
                         bodys_bqc.put("oddsSingle",oddsSingle);
 
                         JSONArray matchInfo = new JSONArray();
@@ -433,7 +433,7 @@ public class JcDao {
         return rbody;
     }
 
-    //»ìºÏ¹ı¹Ø
+    //æ··åˆè¿‡å…³
     public static String createHhggFormat( String type, String str)  {
         JSONObject rdata = new JSONObject();
         JSONObject rhead = new JSONObject();
@@ -465,7 +465,7 @@ public class JcDao {
     }
 
 
-    //ÅĞ¶ÏÊÇ·ñĞèÒª¸üĞÂ¾º²ÊÊı¾İ
+    //åˆ¤æ–­æ˜¯å¦éœ€è¦æ›´æ–°ç«å½©æ•°æ®
     public static boolean getTask( String str,String st){
         boolean sign = false;
         try {

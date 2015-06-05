@@ -86,7 +86,7 @@ public class HttpClientWrapper {
         return res;
     }
 
-    public static String getUrl(String url , Map<String, String> keys){
+    public static String getUrl(String url){
         HttpGet request = new HttpGet(url);
         //添加timeout属性
         RequestConfig.Builder rcBuilder = RequestConfig.copy(RequestConfig.DEFAULT);
